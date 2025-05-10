@@ -1,0 +1,1465 @@
+{% extends 'logins/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h2 class="text-center mt-5" style="font-weight:900;text-transform: uppercase;">Admin Dashboard</h2>
+    <div class="d-flex justify-content-center align-items-center flex-wrap gap-5 mt-5">
+    <a href="{% url 'nagercoil_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">NAGERCOIL DASHBOARD</div></a>
+     <a href="{% url 'chennai_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">CHENNAI DASHBOARD</div></a>
+      <a href="{% url 'tirunelveli_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">TIRUNELVELI DASHBOARD</div></a>
+      <a href="{% url 'pudukottai_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">PUDUKOTTAI DASHBOARD</div></a>
+      <a href="{% url 'billwise_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">BILLWISE PAYMENT DASHBOARD</div></a>
+      <a href="{% url 'workstatus_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">WORK STATUS DASHBOARD</div></a>
+      </div>
+<div class="container mt-4">
+    
+    <!-- <a href="{% url 'logout' %}">Logout</a> -->
+    <!-- User Registration Table -->
+    <div class="card mb-4 mt-5">
+        <div class="card-header bg-dark text-white">
+            <h5 class="text-center">User Registrations</h5>
+        </div>
+        <div class="card-body">
+            {% for branch in branches %}
+                <h6 class="mt-4 mb-2 text-uppercase text-center">{{ branch }} Branch</h6>
+                <table class="table table-bordered table-hover mb-4 text-center mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Branch</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% with users=user_registrations|dictsort:"branch" %}
+                            {% for user in users %}
+                                {% if user.branch == branch %}
+                                    <tr>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.department }}</td>
+                                        <td>{{ user.branch }}</td>
+                                        <td>
+                                            {% if user.is_approved %}
+                                                <span class="badge bg-success">Approved</span>
+                                            {% else %}
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if not user.is_approved %}
+                                                <a href="{% url 'approve_user' user.id %}" class="btn btn-success btn-sm me-1">Approve</a>
+                                            {% endif %}
+                                            <a href="{% url 'edit_user' user.id %}" class="btn btn-warning btn-sm me-1">Edit</a>
+                                            <a href="{% url 'delete_user' user.id %}" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete {{ user.username }}?');">
+                                            Delete
+                                         </a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="6" class="text-center">No user registrations for this branch.</td></tr>
+                            {% endfor %}
+                        {% endwith %}
+                    </tbody>
+                </table>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+ <!-- <h1 class="text-center">Nagercoil Branch</h1>   
+
+ <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>PhD Registrations - Nagercoil</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th><th>Reg. Code</th><th>Name</th><th>Department</th><th>PhD Type</th>
+                    <th>College/University</th><th>Mobile</th><th>Email</th><th>Paid</th><th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for phd in nagercoil_phds %}
+                <tr>
+                    <td>{{ phd.date }}</td>
+                    <td>{{ phd.reg_code }}</td>
+                    <td>{{ phd.name }}</td>
+                    <td>{{ phd.department }}</td>
+                    <td>{{ phd.phd_type }}</td>
+                    <td>{{ phd.college_university }}</td>
+                    <td>{{ phd.mobile_no }}</td>
+                    <td>{{ phd.email_id }}</td>
+                    <td>{{ phd.amount_paid }}</td>
+                    <td>{{ phd.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>Nagercoil Project Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Project Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in nagercoil_projects %}
+                <tr>
+                    <td>{{ project.date }}</td>
+                    <td>{{ project.reg_code }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.department }}</td>
+                    <td>{{ project.project_type }}</td>
+                    <td>{{ project.college_university }}</td>
+                    <td>{{ project.mobile_no }}</td>
+                    <td>{{ project.email_id }}</td>
+                    <td>{{ project.amount_paid }}</td>
+                    <td>{{ project.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Nagercoil project registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Nagercoil Internship Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Internship Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for internship in nagercoil_internships %}
+                <tr>
+                    <td>{{ internship.date }}</td>
+                    <td>{{ internship.reg_code }}</td>
+                    <td>{{ internship.name }}</td>
+                    <td>{{ internship.department }}</td>
+                    <td>{{ internship.internship_type }}</td>
+                    <td>{{ internship.college_university }}</td>
+                    <td>{{ internship.mobile_no }}</td>
+                    <td>{{ internship.email_id }}</td>
+                    <td>{{ internship.amount_paid }}</td>
+                    <td>{{ internship.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Nagercoil internship registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Nagercoil Publication Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Publication Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publication in nagercoil_publications %}
+                <tr>
+                    <td>{{ publication.date }}</td>
+                    <td>{{ publication.reg_code }}</td>
+                    <td>{{ publication.name }}</td>
+                    <td>{{ publication.department }}</td>
+                    <td>{{ publication.publication_type }}</td>
+                    <td>{{ publication.college_university }}</td>
+                    <td>{{ publication.mobile_no }}</td>
+                    <td>{{ publication.email_id }}</td>
+                    <td>{{ publication.amount_paid }}</td>
+                    <td>{{ publication.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Nagercoil publication registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Nagercoil Daily Income Expenditures</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>PVC No</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in nagercoil_income_expenses %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.income }}</td>
+                    <td>{{ record.expense }}</td>
+                    <td>{{ record.pvc_no }}</td>
+                    <td>{{ record.balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center">No Nagercoil income/expense records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Nagercoil Payment Vouchers</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>VC No</th>
+                    <th>Purpose</th>
+                    <th>Online (A/C)</th>
+                    <th>Cash</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in nagercoil_payment_vouchers %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.vc_no }}</td>
+                    <td>{{ record.purpose }}</td>
+                    <td>{{ record.online_payment }}</td>
+                    <td>{{ record.cash_payment }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center">No Nagercoil payment vouchers found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<h1 class="text-center">Tirunelveli Branch</h1>  
+<br> 
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>PhD Registrations - Tirunelveli</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th><th>Reg. Code</th><th>Name</th><th>Department</th><th>PhD Type</th>
+                    <th>College/University</th><th>Mobile</th><th>Email</th><th>Paid</th><th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for phd in tirunelveli_phds %}
+                <tr>
+                    <td>{{ phd.date }}</td>
+                    <td>{{ phd.reg_code }}</td>
+                    <td>{{ phd.name }}</td>
+                    <td>{{ phd.department }}</td>
+                    <td>{{ phd.phd_type }}</td>
+                    <td>{{ phd.college_university }}</td>
+                    <td>{{ phd.mobile_no }}</td>
+                    <td>{{ phd.email_id }}</td>
+                    <td>{{ phd.amount_paid }}</td>
+                    <td>{{ phd.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>Tirunelveli Project Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Project Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in tirunelveli_projects %}
+                <tr>
+                    <td>{{ project.date }}</td>
+                    <td>{{ project.reg_code }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.department }}</td>
+                    <td>{{ project.project_type }}</td>
+                    <td>{{ project.college_university }}</td>
+                    <td>{{ project.mobile_no }}</td>
+                    <td>{{ project.email_id }}</td>
+                    <td>{{ project.amount_paid }}</td>
+                    <td>{{ project.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Tirunelveli project registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Tirunelveli Internship Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Internship Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for internship in tirunelveli_internships %}
+                <tr>
+                    <td>{{ internship.date }}</td>
+                    <td>{{ internship.reg_code }}</td>
+                    <td>{{ internship.name }}</td>
+                    <td>{{ internship.department }}</td>
+                    <td>{{ internship.internship_type }}</td>
+                    <td>{{ internship.college_university }}</td>
+                    <td>{{ internship.mobile_no }}</td>
+                    <td>{{ internship.email_id }}</td>
+                    <td>{{ internship.amount_paid }}</td>
+                    <td>{{ internship.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Tirunelveli internship registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Tirunelveli Publication Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Publication Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publication in tirunelveli_publications %}
+                <tr>
+                    <td>{{ publication.date }}</td>
+                    <td>{{ publication.reg_code }}</td>
+                    <td>{{ publication.name }}</td>
+                    <td>{{ publication.department }}</td>
+                    <td>{{ publication.publication_type }}</td>
+                    <td>{{ publication.college_university }}</td>
+                    <td>{{ publication.mobile_no }}</td>
+                    <td>{{ publication.email_id }}</td>
+                    <td>{{ publication.amount_paid }}</td>
+                    <td>{{ publication.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Tirunelveli publication registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Tirunelveli Daily Income Expenditures</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>PVC No</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in tirunelveli_income_expenses %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.income }}</td>
+                    <td>{{ record.expense }}</td>
+                    <td>{{ record.pvc_no }}</td>
+                    <td>{{ record.balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center">No Tirunelveli income/expense records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Tirunelveli Payment Vouchers</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>VC No</th>
+                    <th>Purpose</th>
+                    <th>Online (A/C)</th>
+                    <th>Cash</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in tirunelveli_payment_vouchers %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.vc_no }}</td>
+                    <td>{{ record.purpose }}</td>
+                    <td>{{ record.online_payment }}</td>
+                    <td>{{ record.cash_payment }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center">No Tirunelveli payment vouchers found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<h1 class="text-center">Chennai Branch</h1>  
+<br>
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>PhD Registrations - Chennai</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th><th>Reg. Code</th><th>Name</th><th>Department</th><th>PhD Type</th>
+                    <th>College/University</th><th>Mobile</th><th>Email</th><th>Paid</th><th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for phd in chennai_phds %}
+                <tr>
+                    <td>{{ phd.date }}</td>
+                    <td>{{ phd.reg_code }}</td>
+                    <td>{{ phd.name }}</td>
+                    <td>{{ phd.department }}</td>
+                    <td>{{ phd.phd_type }}</td>
+                    <td>{{ phd.college_university }}</td>
+                    <td>{{ phd.mobile_no }}</td>
+                    <td>{{ phd.email_id }}</td>
+                    <td>{{ phd.amount_paid }}</td>
+                    <td>{{ phd.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>Chennai Project Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Project Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in chennai_projects %}
+                <tr>
+                    <td>{{ project.date }}</td>
+                    <td>{{ project.reg_code }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.department }}</td>
+                    <td>{{ project.project_type }}</td>
+                    <td>{{ project.college_university }}</td>
+                    <td>{{ project.mobile_no }}</td>
+                    <td>{{ project.email_id }}</td>
+                    <td>{{ project.amount_paid }}</td>
+                    <td>{{ project.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Chennai project registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Internship Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Internship Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for internship in chennai_internships %}
+                <tr>
+                    <td>{{ internship.date }}</td>
+                    <td>{{ internship.reg_code }}</td>
+                    <td>{{ internship.name }}</td>
+                    <td>{{ internship.department }}</td>
+                    <td>{{ internship.internship_type }}</td>
+                    <td>{{ internship.college_university }}</td>
+                    <td>{{ internship.mobile_no }}</td>
+                    <td>{{ internship.email_id }}</td>
+                    <td>{{ internship.amount_paid }}</td>
+                    <td>{{ internship.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Chennai internship registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Publication Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Publication Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publication in chennai_publications %}
+                <tr>
+                    <td>{{ publication.date }}</td>
+                    <td>{{ publication.reg_code }}</td>
+                    <td>{{ publication.name }}</td>
+                    <td>{{ publication.department }}</td>
+                    <td>{{ publication.publication_type }}</td>
+                    <td>{{ publication.college_university }}</td>
+                    <td>{{ publication.mobile_no }}</td>
+                    <td>{{ publication.email_id }}</td>
+                    <td>{{ publication.amount_paid }}</td>
+                    <td>{{ publication.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Chennai publication registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Daily Income Expenditures</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>PVC No</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in chennai_income_expenses %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.income }}</td>
+                    <td>{{ record.expense }}</td>
+                    <td>{{ record.pvc_no }}</td>
+                    <td>{{ record.balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center">No Chennai income/expense records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Payment Vouchers</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>VC No</th>
+                    <th>Purpose</th>
+                    <th>Online (A/C)</th>
+                    <th>Cash</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in chennai_payment_vouchers %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.vc_no }}</td>
+                    <td>{{ record.purpose }}</td>
+                    <td>{{ record.online_payment }}</td>
+                    <td>{{ record.cash_payment }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center">No Chennai payment vouchers found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<h1 class="text-center">Pudukottai Branch</h1>  
+<br>
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>PhD Registrations - Pudukottai</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th><th>Reg. Code</th><th>Name</th><th>Department</th><th>PhD Type</th>
+                    <th>College/University</th><th>Mobile</th><th>Email</th><th>Paid</th><th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for phd in pudukottai_phds %}
+                <tr>
+                    <td>{{ phd.date }}</td>
+                    <td>{{ phd.reg_code }}</td>
+                    <td>{{ phd.name }}</td>
+                    <td>{{ phd.department }}</td>
+                    <td>{{ phd.phd_type }}</td>
+                    <td>{{ phd.college_university }}</td>
+                    <td>{{ phd.mobile_no }}</td>
+                    <td>{{ phd.email_id }}</td>
+                    <td>{{ phd.amount_paid }}</td>
+                    <td>{{ phd.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>Pudukottai Project Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Project Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in pudukottai_projects %}
+                <tr>
+                    <td>{{ project.date }}</td>
+                    <td>{{ project.reg_code }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.department }}</td>
+                    <td>{{ project.project_type }}</td>
+                    <td>{{ project.college_university }}</td>
+                    <td>{{ project.mobile_no }}</td>
+                    <td>{{ project.email_id }}</td>
+                    <td>{{ project.amount_paid }}</td>
+                    <td>{{ project.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Pudukottai project registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Pudukottai Internship Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Internship Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for internship in pudukottai_internships %}
+                <tr>
+                    <td>{{ internship.date }}</td>
+                    <td>{{ internship.reg_code }}</td>
+                    <td>{{ internship.name }}</td>
+                    <td>{{ internship.department }}</td>
+                    <td>{{ internship.internship_type }}</td>
+                    <td>{{ internship.college_university }}</td>
+                    <td>{{ internship.mobile_no }}</td>
+                    <td>{{ internship.email_id }}</td>
+                    <td>{{ internship.amount_paid }}</td>
+                    <td>{{ internship.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Pudukottai internship registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Pudukottai Publication Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Publication Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publication in pudukottai_publications %}
+                <tr>
+                    <td>{{ publication.date }}</td>
+                    <td>{{ publication.reg_code }}</td>
+                    <td>{{ publication.name }}</td>
+                    <td>{{ publication.department }}</td>
+                    <td>{{ publication.publication_type }}</td>
+                    <td>{{ publication.college_university }}</td>
+                    <td>{{ publication.mobile_no }}</td>
+                    <td>{{ publication.email_id }}</td>
+                    <td>{{ publication.amount_paid }}</td>
+                    <td>{{ publication.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Pudukottai publication registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Pudukottai Daily Income Expenditures</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>PVC No</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in pudukottai_income_expenses %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.income }}</td>
+                    <td>{{ record.expense }}</td>
+                    <td>{{ record.pvc_no }}</td>
+                    <td>{{ record.balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center">No Pudukottai income/expense records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Pudukottai Payment Vouchers</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>VC No</th>
+                    <th>Purpose</th>
+                    <th>Online (A/C)</th>
+                    <th>Cash</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in pudukottai_payment_vouchers %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.vc_no }}</td>
+                    <td>{{ record.purpose }}</td>
+                    <td>{{ record.online_payment }}</td>
+                    <td>{{ record.cash_payment }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center">No Pudukottai payment vouchers found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    
+
+    
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5>PhD Bills</h5>
+        </div>
+        <div class="card-body">
+            {% for branch, bills in phd_bills.items %}
+            <h6>{{ branch }} PhD Bills</h6>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Bill No</th>
+                        <th>Name</th>
+                        <th>Total Amount</th>
+                        <th>Cash Received</th>
+                        <th>Online Received</th>
+                        <th>Total Paid Amount</th>
+                        <th>Balance</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.date }}</td>
+                        <td>{{ bill.bill_number }}</td>
+                        <td>{{ bill.name }}</td>
+                        <td>{{ bill.total_amount }}</td>
+                        <td>{{ bill.cash_received }}</td>
+                        <td>{{ bill.online_received }}</td>
+                        <td>{{ bill.total_paid_amount }}</td>
+                        <td>{{ bill.balance }}</td>
+                        <td>{{ bill.payment_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="9" class="text-center">No PhD bills found for {{ branch }}.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5>Internship Bills</h5>
+        </div>
+        <div class="card-body">
+            {% for branch, bills in internship_bills.items %}
+            <h6>{{ branch }} Internship Bills</h6>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Bill No</th>
+                        <th>Name</th>
+                        <th>Total Amount</th>
+                        <th>Cash Received</th>
+                        <th>Online Received</th>
+                        <th>Total Paid Amount</th>
+                        <th>Balance</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.date }}</td>
+                        <td>{{ bill.bill_number }}</td>
+                        <td>{{ bill.name }}</td>
+                        <td>{{ bill.total_amount }}</td>
+                        <td>{{ bill.cash_received }}</td>
+                        <td>{{ bill.online_received }}</td>
+                        <td>{{ bill.total_paid_amount }}</td>
+                        <td>{{ bill.balance }}</td>
+                        <td>{{ bill.payment_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="9" class="text-center">No Internship bills found for {{ branch }}.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5>Project Bills</h5>
+        </div>
+        <div class="card-body">
+            {% for branch, bills in project_bills.items %}
+            <h6>{{ branch }} Project Bills</h6>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Bill No</th>
+                        <th>Name</th>
+                        <th>Total Amount</th>
+                        <th>Cash Received</th>
+                        <th>Online Received</th>
+                        <th>Total Paid Amount</th>
+                        <th>Balance</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.date }}</td>
+                        <td>{{ bill.bill_number }}</td>
+                        <td>{{ bill.name }}</td>
+                        <td>{{ bill.total_amount }}</td>
+                        <td>{{ bill.cash_received }}</td>
+                        <td>{{ bill.online_received }}</td>
+                        <td>{{ bill.total_paid_amount }}</td>
+                        <td>{{ bill.balance }}</td>
+                        <td>{{ bill.payment_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="9" class="text-center">No Project bills found for {{ branch }}.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5>Journal Bills</h5>
+        </div>
+        <div class="card-body">
+            {% for branch, bills in journal_bills.items %}
+            <h6>{{ branch }} Journal Bills</h6>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Bill No</th>
+                        <th>Name</th>
+                        <th>Total Amount</th>
+                        <th>Cash Received</th>
+                        <th>Online Received</th>
+                        <th>Total Paid Amount</th>
+                        <th>Balance</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.date }}</td>
+                        <td>{{ bill.bill_number }}</td>
+                        <td>{{ bill.name }}</td>
+                        <td>{{ bill.total_amount }}</td>
+                        <td>{{ bill.cash_received }}</td>
+                        <td>{{ bill.online_received }}</td>
+                        <td>{{ bill.total_paid_amount }}</td>
+                        <td>{{ bill.balance }}</td>
+                        <td>{{ bill.payment_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="9" class="text-center">No Journal bills found for {{ branch }}.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5>Sharing Bills</h5>
+        </div>
+        <div class="card-body">
+            {% for branch, bills in sharing_bills.items %}
+            <h6>{{ branch }} Sharing Bills</h6>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Bill No</th>
+                        <th>Name</th>
+                        <th>Total Amount</th>
+                        <th>Cash Received</th>
+                        <th>Online Received</th>
+                        <th>Total Paid Amount</th>
+                        <th>Balance</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.date }}</td>
+                        <td>{{ bill.bill_number }}</td>
+                        <td>{{ bill.name }}</td>
+                        <td>{{ bill.total_amount }}</td>
+                        <td>{{ bill.cash_received }}</td>
+                        <td>{{ bill.online_received }}</td>
+                        <td>{{ bill.total_paid_amount }}</td>
+                        <td>{{ bill.balance }}</td>
+                        <td>{{ bill.payment_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="9" class="text-center">No Sharing bills found for {{ branch }}.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5>Patent Bills</h5>
+        </div>
+        <div class="card-body">
+            {% for branch, bills in patent_bills.items %}
+            <h6>{{ branch }} Patent Bills</h6>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Bill No</th>
+                        <th>Name</th>
+                        <th>Total Amount</th>
+                        <th>Cash Received</th>
+                        <th>Online Received</th>
+                        <th>Total Paid Amount</th>
+                        <th>Balance</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.date }}</td>
+                        <td>{{ bill.bill_number }}</td>
+                        <td>{{ bill.name }}</td>
+                        <td>{{ bill.total_amount }}</td>
+                        <td>{{ bill.cash_received }}</td>
+                        <td>{{ bill.online_received }}</td>
+                        <td>{{ bill.total_paid_amount }}</td>
+                        <td>{{ bill.balance }}</td>
+                        <td>{{ bill.payment_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="9" class="text-center">No Patent bills found for {{ branch }}.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Branch-Wise Work Status Records</h2>
+    
+       
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5>Nagercoil - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-dark">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in nagercoil_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    
+        
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5>Tirunelveli - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-dark">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in tirunelveli_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    
+        
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5>Pudukottai - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-dark">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in pudukottai_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    
+      
+        <div class="card mb-4">
+            <div class="card-header bg-danger text-white">
+                <h5>Chennai - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-dark">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in chennai_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+    </div> -->
+    
+<br><br><br><br>
+</body>
+</html>
+{% endblock %}

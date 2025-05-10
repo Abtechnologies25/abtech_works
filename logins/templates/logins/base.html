@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<style>
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+body{
+    /* background: linear-gradient(to right, #ede8f0, #e6d9ee); */
+    font-family: 'Inter', sans-serif;
+}
+nav{
+    background-color: #2a4359;
+}
+.box{
+        width: 300px;
+        height: 100px;
+        /* background-color: rgb(27, 31, 29); */
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-weight: 700;
+        
+    }
+    a{
+        text-decoration: none;
+    }
+    .addmain{
+    width: 500px;
+}
+</style>
+</style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <nav >
+        <div class="d-flex justify-content-center  align-items-center gap-5  text-light">
+            
+            <p class="pt-3"><strong>Username:</strong> {{ user.username }}</p>
+            <p class="pt-3"><strong>Branch:</strong> {{ user.branch }}</p>
+            <p class="pt-3"><strong>Department:</strong> {{ user.department }}</p>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary text-light">Dashboard</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger text-light ">Logout</a>
+    </div>
+    </nav>
+    {% endif %}
+    <!-- <hr> -->
+    {% block content %}
+    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</body>
+</html>

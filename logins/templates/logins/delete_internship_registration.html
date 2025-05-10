@@ -1,0 +1,21 @@
+{% extends "logins/base.html" %}
+
+{% block content %}
+<h2>Delete Internship Registration</h2>
+<p>Are you sure you want to delete this record?</p>
+
+<ul>
+    <li><strong>Reg Code:</strong> {{ record.reg_code }}</li>
+    <li><strong>Name:</strong> {{ record.name }}</li>
+    <li><strong>Department:</strong> {{ record.department }}</li>
+    <li><strong>Internship Type:</strong> {{ record.internship_type }}</li>
+    <li><strong>College/University:</strong> {{ record.college_university }}</li>
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'internship_registration_report' branch %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

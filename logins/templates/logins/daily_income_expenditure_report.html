@@ -1,0 +1,80 @@
+{% extends 'logins/base.html' %}
+{% block content %}
+<div class="container">
+<h2 class="text-center mt-5" style="font-weight:900">Daily Income Expenditure Report - {{ branch }}</h2>
+
+
+<!-- <a href="{% url 'dashboard' %}">Dashboard</a> -->
+<center>
+    <div class="mt-5">
+<form method="GET" action="{% url 'download_income_expenditure_report' branch %}">
+    <label for="month">Select Month:</label>
+    <select id="month" name="month" required>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+    </select>
+
+    <label for="year">Select Year:</label>
+    <select name="year" id="year" required>
+        <option value="">--Select--</option>
+        {% for y in years %}
+            <option value="{{ y }}">{{ y }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn btn-success">Download Excel</button>
+    <a href="{% url 'add_daily_income_expenditure' branch=branch %}" class="btn btn-primary">Add New Entry</a>
+</form>
+</div>
+</center>
+<table class="table table-striped mt-5 text-center">
+    <thead>
+        <tr>
+            <th>S.No</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Income</th>
+            <th>Expense</th>
+            <th>PVC No</th>
+            <th>Balance</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.description }}</td>
+            <td>{{ record.income }}</td>
+            <td>{{ record.expense }}</td>
+            <td>{{ record.pvc_no }}</td>
+            <td>{{ record.balance }}</td>
+            <td>
+                <a href="{% url 'edit_daily_income_expenditure' branch=branch record_id=record.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'delete_daily_income_expenditure' branch=branch record_id=record.id %}" 
+                class="btn btn-danger btn-sm" 
+                onclick="return confirm('Are you sure you want to delete this record?');">
+                Delete
+             </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8" class="text-center">No records found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
