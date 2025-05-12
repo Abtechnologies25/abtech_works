@@ -1,0 +1,189 @@
+{% extends 'logins/base.html' %}
+{% block content %}
+ <div class="container-fluid mt-4">
+        <h1 class="mt-5 text-center" style="font-weight:900">Branch-Wise Work Status Records</h1>
+    
+        <!-- Nagercoil Branch -->
+        <div class="card mb-4 text-center mt-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="text-uppercase">Nagercoil - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-uppercase fw-bold mt-4">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4 mt-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in nagercoil_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <!-- Tirunelveli Branch -->
+        <div class="card mb-4 text-center">
+            <div class="card-header bg-dark text-white">
+                <h5 class="text-uppercase">Tirunelveli - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-uppercase fw-bold mt-4">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4 mt-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in tirunelveli_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <!-- Pudukottai Branch -->
+        <div class="card mb-4 mt-5 text-center">
+            <div class="card-header bg-dark text-dark">
+                <h5 class="text-uppercase text-light">Pudukottai - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-uppercase fw-bold mt-4">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4 mt-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in pudukottai_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <!-- Chennai Branch -->
+        <div class="card mb-4 text-center mt-5">
+            <div class="card-header bg-dark text-white">
+                <h5 class="text-uppercase">Chennai - Work Status Records</h5>
+            </div>
+            <div class="card-body">
+                {% for department in departments %}
+                    <h6 class="text-uppercase fw-bold mt-4">{{ department|title }}</h6>
+                    <table class="table table-bordered table-hover mb-4 mt-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Branch</th>
+                                <th>Department</th>
+                                <th>Work Code</th>
+                                <th>Work Details</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Work Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in chennai_work_status %}
+                                {% if work.department == department %}
+                                    <tr>
+                                        <td>{{ work.user.username }}</td>
+                                        <td>{{ work.branch }}</td>
+                                        <td>{{ work.department }}</td>
+                                        <td>{{ work.work_code }}</td>
+                                        <td>{{ work.work_details }}</td>
+                                        <td>{{ work.start_date }}</td>
+                                        <td>{{ work.end_date }}</td>
+                                        <td>{{ work.work_status }}</td>
+                                        <td>{{ work.date }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr><td colspan="9" class="text-center">No records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}

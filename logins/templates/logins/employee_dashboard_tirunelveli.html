@@ -1,0 +1,17 @@
+{% extends 'logins/base.html' %}
+{% block content %}
+
+
+        <h2 class="mt-5 text-center" style="font-weight:900">Employee Dashboard - {{ branch }}</h2>
+
+
+
+
+    <div class="d-flex justify-content-center align-items-center flex-wrap gap-5 mt-5">
+        <a href="{% url 'work_status_list' %}" class="btn btn-primary">
+                <div class="box text-light bg-primary">UPLOAD WORK STATUS</div>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

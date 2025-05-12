@@ -1,0 +1,230 @@
+<!-- Chennai -->
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>PhD Registrations - Chennai</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th><th>Reg. Code</th><th>Name</th><th>Department</th><th>PhD Type</th>
+                    <th>College/University</th><th>Mobile</th><th>Email</th><th>Paid</th><th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for phd in chennai_phds %}
+                <tr>
+                    <td>{{ phd.date }}</td>
+                    <td>{{ phd.reg_code }}</td>
+                    <td>{{ phd.name }}</td>
+                    <td>{{ phd.department }}</td>
+                    <td>{{ phd.phd_type }}</td>
+                    <td>{{ phd.college_university }}</td>
+                    <td>{{ phd.mobile_no }}</td>
+                    <td>{{ phd.email_id }}</td>
+                    <td>{{ phd.amount_paid }}</td>
+                    <td>{{ phd.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5>Chennai Project Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Project Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in chennai_projects %}
+                <tr>
+                    <td>{{ project.date }}</td>
+                    <td>{{ project.reg_code }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.department }}</td>
+                    <td>{{ project.project_type }}</td>
+                    <td>{{ project.college_university }}</td>
+                    <td>{{ project.mobile_no }}</td>
+                    <td>{{ project.email_id }}</td>
+                    <td>{{ project.amount_paid }}</td>
+                    <td>{{ project.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Chennai project registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Internship Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Internship Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for internship in chennai_internships %}
+                <tr>
+                    <td>{{ internship.date }}</td>
+                    <td>{{ internship.reg_code }}</td>
+                    <td>{{ internship.name }}</td>
+                    <td>{{ internship.department }}</td>
+                    <td>{{ internship.internship_type }}</td>
+                    <td>{{ internship.college_university }}</td>
+                    <td>{{ internship.mobile_no }}</td>
+                    <td>{{ internship.email_id }}</td>
+                    <td>{{ internship.amount_paid }}</td>
+                    <td>{{ internship.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Chennai internship registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Chennai Publication Registration Table -->
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Publication Registrations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Reg. Code</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Publication Type</th>
+                    <th>College/University</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publication in chennai_publications %}
+                <tr>
+                    <td>{{ publication.date }}</td>
+                    <td>{{ publication.reg_code }}</td>
+                    <td>{{ publication.name }}</td>
+                    <td>{{ publication.department }}</td>
+                    <td>{{ publication.publication_type }}</td>
+                    <td>{{ publication.college_university }}</td>
+                    <td>{{ publication.mobile_no }}</td>
+                    <td>{{ publication.email_id }}</td>
+                    <td>{{ publication.amount_paid }}</td>
+                    <td>{{ publication.amount_balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center">No Chennai publication registrations found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Chennai Daily Income Expenditure Table -->
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Daily Income Expenditures</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>PVC No</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in chennai_income_expenses %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.income }}</td>
+                    <td>{{ record.expense }}</td>
+                    <td>{{ record.pvc_no }}</td>
+                    <td>{{ record.balance }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center">No Chennai income/expense records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Chennai Payment Vouchers</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>VC No</th>
+                    <th>Purpose</th>
+                    <th>Online (A/C)</th>
+                    <th>Cash</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in chennai_payment_vouchers %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.vc_no }}</td>
+                    <td>{{ record.purpose }}</td>
+                    <td>{{ record.online_payment }}</td>
+                    <td>{{ record.cash_payment }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center">No Chennai payment vouchers found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
