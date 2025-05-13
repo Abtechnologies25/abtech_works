@@ -39,7 +39,7 @@
 </div>
 </center>
 <!-- Project Registration Table -->
-<table border="1" class="table table-striped mt-5 text-center">
+<table border="1" class="table table-bordered mt-5 text-center">
     <thead>
         <tr>
             <th>S.No</th>
@@ -51,8 +51,10 @@
             <th>College/University</th>
             <th>Mobile No</th>
             <th>Email Id</th>
+            <th>Total amount</th>
             <th>Amount Paid</th>
             <th>Amount Balance</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -68,8 +70,10 @@
             <td>{{ record.college_university }}</td>
             <td>{{ record.mobile_no }}</td>
             <td>{{ record.email_id }}</td>
+            <td>{{ record.total_amount }}</td>
             <td>{{ record.amount_paid }}</td>
             <td>{{ record.amount_balance }}</td>
+            <td>{{ record.status }}</td>
             <td>
                 <a href="{% url 'edit_project_registration' branch record.id %}" class="btn btn-warning">Edit</a>
                 <a href="{% url 'delete_project_registration' branch record.id %}" 

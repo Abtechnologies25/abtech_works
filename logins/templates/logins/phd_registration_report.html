@@ -41,9 +41,9 @@
 </div>
 </center>
 <br>
-<table border="1" class="table table-striped text-center mt-5">
+<table border="1" class="table table-bordered text-center mt-5">
     <thead>
-        <tr>
+        <tr class="text-uppercase">
             <th>S.No</th>
             <th>Date</th>
             <th>Reg Code</th>
@@ -53,8 +53,10 @@
             <th>College/University Name</th>
             <th>Mobile No</th>
             <th>Email Id</th>
+            <th>Total amount</th>
             <th>Amount Paid</th>
             <th>Amount Balance</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -70,8 +72,10 @@
             <td>{{ record.college_university }}</td>
             <td>{{ record.mobile_no }}</td>
             <td>{{ record.email_id }}</td>
+             <td>{{ record.total_amount }}</td>
             <td>{{ record.amount_paid }}</td>
             <td>{{ record.amount_balance }}</td>
+            <td>{{ record.status }}</td>
             <td>
                 <a href="{% url 'edit_phd_registration' branch record.id %}" class="btn btn-warning">Edit</a>
                 <a href="{% url 'delete_phd_registration' branch record.id %}" 

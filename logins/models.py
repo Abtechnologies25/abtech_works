@@ -34,8 +34,15 @@ class AbstractPhdRegistration(models.Model):
     college_university = models.CharField(max_length=255)
     mobile_no = models.CharField(max_length=15)
     email_id = models.EmailField()
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     amount_balance = models.DecimalField(max_digits=10, decimal_places=2)
+    STATUS = [
+        ('REGISTERED', 'REGISTERED'),
+        ('INPROGRESS', 'IN PROGRESS'),
+        ('COMPLETED', 'COMPLETED'),
+    ]
+    status=models.CharField(max_length=50, choices=STATUS,default=0)
 
     class Meta:
         abstract = True  # This makes it an abstract base model
@@ -73,6 +80,13 @@ class AbstractProjectRegistration(models.Model):
     college_university = models.CharField(max_length=255)
     mobile_no = models.CharField(max_length=15)
     email_id = models.EmailField()
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    STATUS = [
+        ('REGISTERED', 'REGISTERED'),
+        ('INPROGRESS', 'IN PROGRESS'),
+        ('COMPLETED', 'COMPLETED'),
+    ]
+    status=models.CharField(max_length=50, choices=STATUS,default=0)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     amount_balance = models.DecimalField(max_digits=10, decimal_places=2)
 

@@ -34,8 +34,8 @@ class UserPasswordEditForm(SetPasswordForm):
 class AbstractPhdRegistrationForm(forms.ModelForm):
     class Meta:
         fields = ['date', 'reg_code', 'name', 'department', 'phd_type', 
-                  'college_university', 'mobile_no', 'email_id', 
-                  'amount_paid', 'amount_balance']
+                  'college_university', 'mobile_no', 'email_id','total_amount', 
+                  'amount_paid', 'amount_balance','status']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'mobile_no': forms.TextInput(attrs={'placeholder': 'Enter mobile number'}),
@@ -62,8 +62,8 @@ class ChennaiPhdRegistrationForm(AbstractPhdRegistrationForm):
 class AbstractProjectRegistrationForm(forms.ModelForm):
     class Meta:
         fields = ['date', 'reg_code', 'name', 'department', 'project_type', 
-                  'college_university', 'mobile_no', 'email_id', 
-                  'amount_paid', 'amount_balance']
+                  'college_university', 'mobile_no', 'email_id','total_amount',  
+                  'amount_paid', 'amount_balance','status']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'mobile_no': forms.TextInput(attrs={'placeholder': 'Enter mobile number'}),
