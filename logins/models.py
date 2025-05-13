@@ -3,12 +3,12 @@ from django.db import models
 
 class User(AbstractUser):
     DEPARTMENT_CHOICES = [
-        ('journal team', 'journal team'),
-        ('Research work development team', 'Research work development team'),
-        ('software project development team', 'software project development team'),
-        ('hardware project development team', 'hardware project development team'),
-        ('Technical team', 'Technical team'),
-        ('Admin team', 'Admin team'),
+        ('journal team', 'Journal Team'),
+        ('Research work development team', 'Research Work Development Team'),
+        ('software project development team', 'Software Project Development Team'),
+        ('hardware project development team', 'Hardware Project Development Team'),
+        ('Technical team', 'Technical Team'),
+        ('Admin team', 'Admin Team'),
     ]
 
     BRANCH_CHOICES = [
@@ -255,12 +255,18 @@ class AbstractBill(models.Model):
     bill_number = models.CharField(max_length=100)
     registration_number = models.CharField(max_length=100)
     name = models.CharField(max_length=255)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    # total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     cash_received = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    online_received = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    total_paid_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_status = models.CharField(max_length=50)
+    MODE_CHOICES = [
+        ('ONLINE', 'ONLINE'),
+        ('OFFLINE', 'OFFLINE'),
+        # ('Completed', 'Completed'),
+    ]
+    modeofpayment = models.CharField(max_length=50, choices=MODE_CHOICES)
+    # online_received = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # total_paid_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    # balance = models.DecimalField(max_digits=10, decimal_places=2)
+    # payment_status = models.CharField(max_length=50)
 
     class Meta:
         abstract = True

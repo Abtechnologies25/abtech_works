@@ -1209,7 +1209,7 @@ def export_bills_to_excel(request, branch, bill_type):
     ws = wb.add_sheet('Bills')
 
     # Header
-    columns = ['S.No', 'Date', 'Bill Number', 'Reg No', 'Name', 'Total Amount', 'Cash', 'Online', 'Total Paid', 'Balance', 'Status']
+    columns = ['S.No', 'Date', 'Bill Number', 'Reg No','Name','AMT_RECEIVED', 'mode of payment']
     for col_num, col_name in enumerate(columns):
         ws.write(0, col_num, col_name)
 
@@ -1220,12 +1220,12 @@ def export_bills_to_excel(request, branch, bill_type):
         ws.write(row_num, 2, record.bill_number)
         ws.write(row_num, 3, record.registration_number)
         ws.write(row_num, 4, record.name)
-        ws.write(row_num, 5, float(record.total_amount))
-        ws.write(row_num, 6, float(record.cash_received))
-        ws.write(row_num, 7, float(record.online_received))
-        ws.write(row_num, 8, float(record.total_paid_amount))
-        ws.write(row_num, 9, float(record.balance))
-        ws.write(row_num, 10, record.payment_status)
+        # ws.write(row_num, 5, float(record.total_amount))
+        ws.write(row_num, 5, float(record.cash_received))
+        # ws.write(row_num, 7, float(record.online_received))
+        ws.write(row_num, 6, record.modeofpayment)
+        # ws.write(row_num, 9, float(record.balance))
+        # ws.write(row_num, 10, record.payment_status)
 
     wb.save(response)
     return response

@@ -207,8 +207,8 @@ DATE_WIDGET = forms.DateInput(attrs={'type': 'date'})
 class BaseBillForm(forms.ModelForm):
     class Meta:
         fields = [
-            'date', 'bill_number', 'registration_number', 'name', 'total_amount',
-            'cash_received', 'online_received', 'total_paid_amount', 'balance', 'payment_status'
+            'date', 'bill_number', 'registration_number', 'name', 
+            'cash_received', 'modeofpayment'
         ]
         widgets = {
             'date': DATE_WIDGET
