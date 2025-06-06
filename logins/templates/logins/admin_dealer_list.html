@@ -1,0 +1,24 @@
+{% extends "logins/base.html" %}
+{% block content %}
+<!-- <div class="container mt-5"> -->
+    <br><br>
+    <h2 class="text-center mb-4">DEALERS LIST</h2>
+    <center><br>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back</a><br><br>
+    </center>
+    <div class="row d-flex justify-content-center align-items-center flex-column">
+        {% for dealer in dealers %}
+        
+                <div class="text-light bg-primary text-center" style="width: 300px;height: 100px;padding: 20px;border-radius: 15px;text-align: center;font-weight: 700;">
+                    <h5 class="">{{ dealer.name }}</h5>
+                    <a href="{% url 'admin_dealer_orders' dealer.id %}" class="btn btn-dark">View Orders</a>
+                </div>
+        
+        {% empty %}
+        <center>
+        <p>No dealers found.</p>
+        </center>
+        {% endfor %}
+    </div>
+
+{% endblock %}

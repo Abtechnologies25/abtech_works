@@ -45,8 +45,10 @@ nav{
         <div class="d-flex justify-content-center  align-items-center gap-5  text-light">
             
             <p class="pt-3"><strong>Username:</strong> {{ user.username }}</p>
+             {% if not user.is_superuser %}
             <p class="pt-3"><strong>Branch:</strong> {{ user.branch }}</p>
             <p class="pt-3"><strong>Department:</strong> {{ user.department }}</p>
+            {% endif %}
             <a href="{% url 'dashboard' %}" class="btn btn-primary text-light">Dashboard</a>
         <a href="{% url 'logout' %}" class="btn btn-danger text-light ">Logout</a>
     </div>

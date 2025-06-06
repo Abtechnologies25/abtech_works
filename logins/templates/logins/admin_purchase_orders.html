@@ -1,0 +1,40 @@
+{% extends "logins/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">OVERALL PURCHASE ORDERS</h2>
+    <center>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back</a></center>
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Date</th>
+                <th>PO No.</th>
+                <th>Branch</th>
+                <th>Dealer</th>
+                <th>Total Amount</th>
+                <th>Payment Date</th>
+                <th>Amount Paid</th>
+                <th>Balance Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.po_no }}</td>
+                <td>{{ order.branch }}</td>
+                <td>{{ order.dealer }}</td>
+                <td>{{ order.total_amount }}</td>
+                <td>{{ order.payment_date|default:"-" }}</td>
+                <td>{{ order.amount_paid }}</td>
+                <td>{{ order.balance_amount }}</td>
+                <td>{{ order.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

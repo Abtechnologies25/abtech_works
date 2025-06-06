@@ -6,7 +6,16 @@ urlpatterns = [
     path('', views.user_login, name='login'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('logout/', views.user_logout, name='logout'),
+    path('admin-dashboard/purchase-orders/', views.admin_purchase_orders, name='admin_purchase_orders'),
 
+    # Dealer list for dealer-wise orders
+    path('admin-dashboard/dealer-list/', views.admin_dealer_list, name='admin_dealer_list'),
+    path('admin-dashboard/dealer-orders/<int:dealer_id>/download/', views.download_dealer_purchase_order_report, name='download_dealer_po_report'),
+    path('dealer-payment/edit/<int:payment_id>/', views.edit_dealer_payment, name='edit_dealer_payment'),
+    path('dealer-payment/delete/<int:payment_id>/', views.delete_dealer_payment, name='delete_dealer_payment'),
+
+    # Dealer-specific order table
+    path('admin-dashboard/dealer-orders/<int:dealer_id>/', views.admin_dealer_orders, name='admin_dealer_orders'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('nagercoil-admin-dashboard/', views.nagercoil_admin_dashboard, name='nagercoil_admin_dashboard'),
     path('chennai-admin-dashboard/', views.chennai_admin_dashboard, name='chennai_admin_dashboard'),
@@ -19,6 +28,33 @@ urlpatterns = [
     path('reject-user/<int:user_id>/', views.reject_user, name='reject_user'),
     path('edit-user/<int:user_id>/', views.edit_user, name='edit_user'),
     path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
+
+  
+
+# urls.py
+
+    path('purchase-order/', views.purchase_order_report, name='purchase_order_report'),
+    path('purchase-order/add/', views.add_purchase_order, name='add_purchase_order'),
+    path('purchase-order/edit/<int:record_id>/', views.edit_purchase_order, name='edit_purchase_order'),
+
+    path('purchase-order/delete/<int:record_id>/', views.delete_purchase_order, name='delete_purchase_order'),
+    path('purchase-order/download/', views.download_purchase_order_report, name='download_purchase_order_report'),
+
+# urls.py
+    path('dealer-wise/', views.dealer_list, name='dealer_list'),
+    path('dealer-wise/add/', views.add_dealer, name='add_dealer'),
+    path('dealer-wise/edit/<int:dealer_id>/', views.edit_dealer, name='edit_dealer'),
+    path('dealer-wise/delete/<int:dealer_id>/', views.delete_dealer, name='delete_dealer'),
+
+    path('dealer-wise/<int:dealer_id>/orders/', views.dealer_purchase_orders, name='dealer_purchase_orders'),
+    path('dealer-wise/order/add/<int:dealer_id>/', views.add_dealer_purchase_order, name='add_dealer_order'),
+    path('dealer-wise/order/edit/<int:order_id>/', views.edit_dealer_purchase_order, name='edit_dealer_purchase_order'),
+    path('dealer-wise/order/delete/<int:order_id>/', views.delete_dealer_purchase_order, name='delete_dealer_order'),
+
+    path('dealer-wise/order/<int:order_id>/payment/add/', views.add_payment, name='add_dealer_payment'),
+
+
+
 
     path('phd-registration/<str:branch>/', views.phd_registration_report, name='phd_registration_report'),
     path('phd_registration/add/<str:branch>/', views.add_phd_registration, name='add_phd_registration'),

@@ -25,6 +25,72 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username} - {self.department} - {self.branch} - {'Approved' if self.is_approved else 'Pending'}"
 
+
+
+class PurchaseOrder(models.Model):
+    BRANCH_CHOICES = [
+        ('Nagercoil', 'Nagercoil'),
+        ('Tirunelveli', 'Tirunelveli'),
+        ('Pudukottai', 'Pudukottai'),
+        ('Chennai', 'Chennai'),
+    ]
+
+    date = models.DateField()
+    po_no = models.CharField(max_length=50)
+    branch = models.CharField(max_length=50, choices=BRANCH_CHOICES)
+    dealer = models.CharField(max_length=100)
+    material_received_on = models.DateField(null=True, blank=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField(null=True, blank=True)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
+    balance_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.po_no} - {self.branch}"
+
+class Dealer(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+# models.py
+class DealerPurchaseOrder(models.Model):
+    BRANCH_CHOICES = [
+        ('Nagercoil', 'Nagercoil'),
+        ('Tirunelveli', 'Tirunelveli'),
+        ('Pudukottai', 'Pudukottai'),
+        ('Chennai', 'Chennai'),
+    ]
+
+    dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE)
+    date = models.DateField()
+    po_no = models.CharField(max_length=50)
+    abt_branch = models.CharField(max_length=50, choices=BRANCH_CHOICES)
+    material_received_on = models.DateField(null=True, blank=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_status = models.CharField(max_length=50,default='null')
+    gst_bill_status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.po_no} - {self.dealer.name}"
+
+
+
+class DealerPayment(models.Model):
+    order = models.ForeignKey(DealerPurchaseOrder, related_name="payments", on_delete=models.CASCADE)
+    date = models.DateField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    balance = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.date} - {self.amount}"
+
+
+
+
 class AbstractPhdRegistration(models.Model):
     date = models.DateField()
     reg_code = models.CharField(max_length=100, unique=True)

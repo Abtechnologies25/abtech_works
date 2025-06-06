@@ -1,0 +1,24 @@
+{% extends 'logins/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h2 class="text-center mt-5" style="font-weight:900">Edit Purchase Order</h2>
+<center>
+<div class="addmain mt-5" style="width:500px;">
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {% render_field field class="form-control" %}
+                {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{% url 'purchase_order_report' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</center>
+{% endblock %}

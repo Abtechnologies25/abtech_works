@@ -31,6 +31,94 @@ class UserPasswordEditForm(SetPasswordForm):
     class Meta:
         model = User
 
+# class AbstractPurchaseOrderForm(forms.ModelForm):
+#     class Meta:
+#         fields = ['date', 'po_no', 'branch', 'dealer', 'material_received_on',
+#                   'total_amount', 'payment_date', 'amount_paid',
+#                   'balance_amount', 'status']
+#         widgets = {
+#             'date': forms.DateInput(attrs={'type': 'date'}),
+#             'material_received_on': forms.DateInput(attrs={'type': 'date'}),
+#             'payment_date': forms.DateInput(attrs={'type': 'date'}),
+#             'dealer': forms.TextInput(attrs={'placeholder': 'Enter dealer name'}),
+#             'branch': forms.TextInput(attrs={'readonly': True}),  # Optional
+#         }
+
+# # Forms for each branch
+# class NagercoilPurchaseOrderForm(AbstractPurchaseOrderForm):
+#     class Meta(AbstractPurchaseOrderForm.Meta):
+#         model = NagercoilPurchaseOrder
+
+# class TirunelveliPurchaseOrderForm(AbstractPurchaseOrderForm):
+#     class Meta(AbstractPurchaseOrderForm.Meta):
+#         model = TirunelveliPurchaseOrder
+
+# class PudukottaiPurchaseOrderForm(AbstractPurchaseOrderForm):
+#     class Meta(AbstractPurchaseOrderForm.Meta):
+#         model = PudukottaiPurchaseOrder
+
+# class ChennaiPurchaseOrderForm(AbstractPurchaseOrderForm):
+#     class Meta(AbstractPurchaseOrderForm.Meta):
+#         model = ChennaiPurchaseOrder
+
+# forms.py
+
+class PurchaseOrderForm(forms.ModelForm):
+    class Meta:
+        model = PurchaseOrder
+        fields = [
+            'date', 'po_no', 'branch', 'dealer',
+            'material_received_on', 'total_amount',
+            'payment_date', 'amount_paid',
+            'balance_amount', 'status'
+        ]
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'material_received_on': forms.DateInput(attrs={'type': 'date'}),
+            'payment_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class DealerForm(forms.ModelForm):
+    class Meta:
+        model = Dealer
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class DealerPaymentForm(forms.ModelForm):
+    class Meta:
+        model = DealerPayment
+        fields = ['date', 'amount', 'balance']
+
+class DealerPurchaseOrderForm(forms.ModelForm):
+    class Meta:
+        model = DealerPurchaseOrder
+        fields = [
+            'date', 'po_no', 'abt_branch', 'material_received_on',
+            'total_amount','payment_status', 'gst_bill_status'
+        ]
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'material_received_on': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'po_no': forms.TextInput(attrs={'class': 'form-control'}),
+            'abt_branch': forms.Select(attrs={'class': 'form-control'}),
+            'total_amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'payment_status': forms.TextInput(attrs={'class': 'form-control'}),
+            'gst_bill_status': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class DealerPaymentForm(forms.ModelForm):
+    class Meta:
+        model = DealerPayment
+        fields = ['date', 'amount', 'balance']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'balance': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
 class AbstractPhdRegistrationForm(forms.ModelForm):
     class Meta:
         fields = ['date', 'reg_code', 'name', 'department', 'phd_type', 

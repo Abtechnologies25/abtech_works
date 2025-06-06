@@ -39,6 +39,8 @@ def user_login(request):
     return render(request, 'logins/login.html', {'form': form})
 
 def admin_dashboard(request):
+    # purchase_orders = PurchaseOrder.objects.all()
+    # dealers = Dealer.objects.all()
     user_registrations = User.objects.all()
     BRANCHES = ['Nagercoil', 'Tirunelveli', 'Pudukottai', 'Chennai']
     nagercoil_projects = NagercoilProjectRegistration.objects.all()
@@ -150,10 +152,24 @@ def admin_dashboard(request):
     'chennai_work_status': work_status_records.filter(branch='Chennai').order_by('-date'),
     'departments': DEPARTMENT_CHOICES,
     'branches': BRANCHES,
+    # 'purchase_orders': purchase_orders,
+    # 'dealers': dealers,
     }
 
     return render(request, 'logins/admin_dashboard.html', context)
 
+def admin_purchase_orders(request):
+    orders = PurchaseOrder.objects.all()
+    return render(request, 'logins/admin_purchase_orders.html', {'orders': orders})
+
+def admin_dealer_list(request):
+    dealers = Dealer.objects.all()
+    return render(request, 'logins/admin_dealer_list.html', {'dealers': dealers})
+
+def admin_dealer_orders(request, dealer_id):
+    dealer = Dealer.objects.get(id=dealer_id)
+    orders = dealer.dealerpurchaseorder_set.all()
+    return render(request, 'logins/admin_dealer_orders.html', {'dealer': dealer, 'orders': orders})
 
 def nagercoil_admin_dashboard(request):
     nagercoil_projects = NagercoilProjectRegistration.objects.all()
@@ -363,6 +379,247 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+
+
+@login_required(login_url='login')
+def purchase_order_report(request):
+    orders = PurchaseOrder.objects.all()
+    current_year = datetime.now().year
+    years = list(range(current_year, current_year - 10, -1))
+    return render(request, 'logins/purchase_order_report.html', {'orders': orders,'years': years})
+
+
+
+@login_required(login_url='login')
+def add_purchase_order(request):
+    if request.method == 'POST':
+        form = PurchaseOrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('purchase_order_report')
+    else:
+        form = PurchaseOrderForm()
+
+    return render(request, 'logins/add_purchase_order.html', {'form': form})
+
+
+@login_required(login_url='login')
+def edit_purchase_order(request, record_id):
+    record = get_object_or_404(PurchaseOrder, id=record_id)
+    form = PurchaseOrderForm(request.POST or None, instance=record)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('purchase_order_report')
+
+    return render(request, 'logins/edit_purchase_order.html', {'form': form})
+
+
+
+@login_required(login_url='login')
+def delete_purchase_order(request, record_id):
+    order = get_object_or_404(PurchaseOrder, pk=record_id)
+    order.delete()
+    messages.success(request, "Purchase order deleted successfully.")
+    return redirect('purchase_order_report')
+
+
+# views.py
+
+@login_required(login_url='login')
+def download_purchase_order_report(request):
+    month = request.GET.get('month')
+    year = request.GET.get('year')
+
+    orders = PurchaseOrder.objects.all()
+
+    if month and year:
+        orders = orders.filter(date__year=year, date__month=month)
+
+    if not orders.exists():
+        return HttpResponse("No records found.", status=404)
+
+    data = []
+    for i, order in enumerate(orders, start=1):
+        data.append({
+            'S.No': i,
+            'Date': order.date.strftime('%Y-%m-%d'),
+            'PO No': order.po_no,
+            'Branch': order.branch,
+            'Dealer': order.dealer,
+            'Material Received On': order.material_received_on.strftime('%Y-%m-%d') if order.material_received_on else '',
+            'Total Amount': order.total_amount,
+            'Payment Date': order.payment_date.strftime('%Y-%m-%d') if order.payment_date else '',
+            'Amount Paid': order.amount_paid,
+            'Balance Amount': order.balance_amount,
+            'Status': order.status,
+        })
+
+    df = pd.DataFrame(data)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename=Purchase_Order_Report_{month or "All"}_{year or "All"}.xlsx'
+
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, sheet_name='Report', index=False)
+
+        worksheet = writer.sheets['Report']
+        date_style = NamedStyle(name="date_style", number_format='YYYY-MM-DD')
+
+        for row in worksheet.iter_rows(min_row=2, max_row=worksheet.max_row, min_col=2, max_col=2):
+            for cell in row:
+                cell.style = date_style
+
+    return response
+
+# views.py
+def dealer_list(request):
+    dealers = Dealer.objects.all()
+    return render(request, 'logins/dealer_list.html', {'dealers': dealers})
+
+
+def add_dealer(request):
+    form = DealerForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('dealer_list')
+    return render(request, 'logins/add_edit_dealer.html', {'form': form, 'action': 'Add'})
+
+
+def edit_dealer(request, dealer_id):
+    dealer = get_object_or_404(Dealer, pk=dealer_id)
+    form = DealerForm(request.POST or None, instance=dealer)
+    if form.is_valid():
+        form.save()
+        return redirect('dealer_list')
+    return render(request, 'logins/add_edit_dealer.html', {'form': form, 'action': 'Edit'})
+
+
+def delete_dealer(request, dealer_id):
+    dealer = get_object_or_404(Dealer, pk=dealer_id)
+    dealer.delete()
+    return redirect('dealer_list')
+
+
+def dealer_purchase_orders(request, dealer_id):
+    dealer = get_object_or_404(Dealer, pk=dealer_id)
+    orders = DealerPurchaseOrder.objects.filter(dealer=dealer)
+    current_year = datetime.now().year
+    years = list(range(current_year, current_year - 10, -1))
+    return render(request, 'logins/dealer_orders.html', {'dealer': dealer, 'orders': orders,'years': years})
+
+
+def add_dealer_purchase_order(request, dealer_id):
+    dealer = get_object_or_404(Dealer, pk=dealer_id)
+    form = DealerPurchaseOrderForm(request.POST or None)
+    if form.is_valid():
+        order = form.save(commit=False)
+        order.dealer = dealer
+        order.save()
+        return redirect('dealer_purchase_orders', dealer_id=dealer.id)
+    return render(request, 'logins/add_edit_order.html', {'form': form, 'action': 'Add', 'dealer': dealer})
+
+
+def edit_dealer_purchase_order(request, order_id):
+    order = get_object_or_404(DealerPurchaseOrder, pk=order_id)
+    form = DealerPurchaseOrderForm(request.POST or None, instance=order)
+    if form.is_valid():
+        form.save()
+        return redirect('dealer_purchase_orders', dealer_id=order.dealer.id)
+    return render(request, 'logins/add_edit_order.html', {'form': form, 'action': 'Edit', 'dealer': order.dealer})
+
+@login_required(login_url='login')
+def edit_dealer_payment(request, payment_id):
+    payment = get_object_or_404(DealerPayment, id=payment_id)
+    form = DealerPaymentForm(request.POST or None, instance=payment)
+    if form.is_valid():
+        form.save()
+        return redirect('edit_dealer_purchase_order', order_id=payment.order.id)
+
+    return render(request, 'logins/edit_payment.html', {
+        'form': form,
+        'payment': payment
+    })
+
+@login_required(login_url='login')
+def delete_dealer_payment(request, payment_id):
+    payment = get_object_or_404(DealerPayment, id=payment_id)
+    order_id = payment.order.id
+    payment.delete()
+    return redirect('edit_dealer_purchase_order', order_id=order_id)
+
+
+def delete_dealer_purchase_order(request, order_id):
+    order = get_object_or_404(DealerPurchaseOrder, pk=order_id)
+    dealer_id = order.dealer.id
+    order.delete()
+    return redirect('logins/dealer_purchase_orders', dealer_id=dealer_id)
+
+
+def add_payment(request, order_id):
+    order = get_object_or_404(DealerPurchaseOrder, pk=order_id)
+    form = DealerPaymentForm(request.POST or None)
+    if form.is_valid():
+        payment = form.save(commit=False)
+        payment.order = order
+        payment.save()
+        return redirect('dealer_purchase_orders', dealer_id=order.dealer.id)
+    return render(request, 'logins/add_payment.html', {'form': form, 'order': order})
+
+
+@login_required(login_url='login')
+def download_dealer_purchase_order_report(request, dealer_id):
+    month = request.GET.get('month')
+    year = request.GET.get('year')
+
+    orders = DealerPurchaseOrder.objects.filter(dealer_id=dealer_id)
+
+    if month and year:
+        orders = orders.filter(date__year=year, date__month=month)
+
+    if not orders.exists():
+        return HttpResponse("No records found.", status=404)
+
+    data = []
+
+    for i, order in enumerate(orders, start=1):
+        # Create a formatted string of payment details
+        payment_details = []
+        for p in order.payments.all():
+            payment_details.append(f"Date: {p.date}, Amount: {p.amount}, Balance: {p.balance}")
+        payment_details_str = "\n".join(payment_details) if payment_details else "No payments"
+
+        data.append({
+            'S.No': i,
+            'Date': order.date.strftime('%Y-%m-%d'),
+            'PO No': order.po_no,
+            'Abt Branch': order.abt_branch,
+            'Material Received On': order.material_received_on.strftime('%Y-%m-%d') if order.material_received_on else '',
+            'Total Amount': order.total_amount,
+            'Payment Details': payment_details_str,
+            'Payment Status': order.payment_status,
+            'GST Bill Status': order.gst_bill_status,
+        })
+
+    df = pd.DataFrame(data)
+
+    # Create HTTP Response with Excel file
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    filename = f"Dealer_PO_Report_{month or 'All'}_{year or 'All'}.xlsx"
+    response['Content-Disposition'] = f'attachment; filename={filename}'
+
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, sheet_name='Report', index=False)
+
+        worksheet = writer.sheets['Report']
+        # Optional: Apply styling to make line breaks visible
+        for col in worksheet.columns:
+            for cell in col:
+                cell.alignment = cell.alignment.copy(wrap_text=True)
+
+    return response
+
 
 @login_required(login_url='login') 
 def phd_registration_report(request, branch):

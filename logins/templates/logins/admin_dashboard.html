@@ -9,18 +9,37 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2 class="text-center mt-5" style="font-weight:900;text-transform: uppercase;">Admin Dashboard</h2>
-    <div class="d-flex justify-content-center align-items-center flex-wrap gap-5 mt-5">
-    <a href="{% url 'nagercoil_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">NAGERCOIL DASHBOARD</div></a>
-     <a href="{% url 'chennai_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">CHENNAI DASHBOARD</div></a>
-      <a href="{% url 'tirunelveli_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">TIRUNELVELI DASHBOARD</div></a>
-      <a href="{% url 'pudukottai_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">PUDUKOTTAI DASHBOARD</div></a>
-      <a href="{% url 'billwise_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">BILLWISE PAYMENT DASHBOARD</div></a>
-      <a href="{% url 'workstatus_admin_dashboard' %}" class="btn btn-primary text-light"><div class="box text-light bg-primary">WORK STATUS DASHBOARD</div></a>
-      </div>
+    <h2 class="text-center mt-5" style="font-weight:900;text-transform: uppercase;">Admin Dashboard</h2><br><br>
+    <!-- <div class="d-flex justify-content-center align-items-center flex-wrap gap-5 mt-5"> -->
+
+<div class=" d-flex justify-content-around">
+
+    <div class="d-flex  flex-column">
+
+            <a href="{% url 'admin_purchase_orders' %}" class="btn btn-primary "><div class="box text-light bg-primary">OVERALL PURCHASE ORDERS</div></a>
+            <a href="{% url 'admin_dealer_list' %}" class="btn btn-primary mt-5"><div class="box text-light bg-primary ">DEALER-WISE PURCHASE ORDERS</div></a>
+      
+
+    </div>
+        
+    <div class=" d-flex   flex-column">
+
+        <a href="{% url 'nagercoil_admin_dashboard' %}" class="btn btn-primary  text-light"><div class="box text-light bg-primary">NAGERCOIL BRANCH</div></a>
+        <a href="{% url 'chennai_admin_dashboard' %}" class="btn btn-primary text-light mt-5"><div class="box text-light bg-primary">CHENNAI BRANCH</div></a>
+        <a href="{% url 'tirunelveli_admin_dashboard' %}" class="btn btn-primary text-light mt-5"><div class="box text-light bg-primary">TIRUNELVELI BRANCH</div></a>
+        <a href="{% url 'pudukottai_admin_dashboard' %}" class="btn btn-primary text-light mt-5"><div class="box text-light bg-primary">PUDUKOTTAI BRANCH</div></a>
+        <a href="{% url 'billwise_admin_dashboard' %}" class="btn btn-primary text-light mt-5"><div class="box text-light bg-primary">BILLWISE PAYMENT BRANCH</div></a>
+        <a href="{% url 'workstatus_admin_dashboard' %}" class="btn btn-primary text-light mt-5"><div class="box text-light bg-primary">WORK STATUS DASHBOARD</div></a>
+
+
+    </div>
+
+</div>
+    
+
 <div class="container mt-4">
     
-    <!-- <a href="{% url 'logout' %}">Logout</a> -->
+    
     <!-- User Registration Table -->
     <div class="card mb-4 mt-5">
         <div class="card-header bg-dark text-white">
