@@ -444,16 +444,16 @@ def download_purchase_order_report(request):
     for i, order in enumerate(orders, start=1):
         data.append({
             'S.No': i,
-            'Date': order.date.strftime('%Y-%m-%d'),
-            'PO No': order.po_no,
-            'Branch': order.branch,
-            'Dealer': order.dealer,
-            'Material Received On': order.material_received_on.strftime('%Y-%m-%d') if order.material_received_on else '',
-            'Total Amount': order.total_amount,
-            'Payment Date': order.payment_date.strftime('%Y-%m-%d') if order.payment_date else '',
-            'Amount Paid': order.amount_paid,
-            'Balance Amount': order.balance_amount,
-            'Status': order.status,
+            'DATE': order.date.strftime('%Y-%m-%d'),
+            'PO No.': order.po_no,
+            'BRANCH': order.branch,
+            'DEALER': order.dealer,
+            'MATERIAL RECEIVED ON': order.material_received_on.strftime('%Y-%m-%d') if order.material_received_on else '',
+            'TOTAL AMOUNT': order.total_amount,
+            'PAYMENT DATE': order.payment_date.strftime('%Y-%m-%d') if order.payment_date else '',
+            'AMOUNT PAID': order.amount_paid,
+            'BALANCE': order.balance_amount,
+            'STATUS': order.status,
         })
 
     df = pd.DataFrame(data)
@@ -592,14 +592,14 @@ def download_dealer_purchase_order_report(request, dealer_id):
 
         data.append({
             'S.No': i,
-            'Date': order.date.strftime('%Y-%m-%d'),
+            'DATE': order.date.strftime('%Y-%m-%d'),
             'PO No': order.po_no,
-            'Abt Branch': order.abt_branch,
-            'Material Received On': order.material_received_on.strftime('%Y-%m-%d') if order.material_received_on else '',
-            'Total Amount': order.total_amount,
-            'Payment Details': payment_details_str,
-            'Payment Status': order.payment_status,
-            'GST Bill Status': order.gst_bill_status,
+            'ABT BRANCH': order.abt_branch,
+            'MATERIAL RECEIVED ON': order.material_received_on.strftime('%Y-%m-%d') if order.material_received_on else '',
+            'TOTAL AMOUNT': order.total_amount,
+            'PAYMENT DETAILS': payment_details_str,
+            'PAYMENT STATUS': order.payment_status,
+            'GST BILL STATUS': order.gst_bill_status,
         })
 
     df = pd.DataFrame(data)
