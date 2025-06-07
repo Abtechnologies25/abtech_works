@@ -1,12 +1,9 @@
 {% extends "logins/base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center">Purchase Orders for {{ dealer.name }}</h2>
-    <div class="text-end mb-3">
-        <a href="{% url 'add_dealer_order' dealer.id %}" class="btn btn-success">Add New Order</a>
-        <a href="{% url 'dealer_list' %}" class="btn btn-secondary">Back to Dealers</a>
-    </div>
-
+<div class="container-fluid mt-5">
+    <h2 class="text-center mt-5" style="font-weight:900">PURCHASE ORDER FOR {{ dealer.name }}</h2>
+   
+<center>
 <div class="mt-4">
     <form method="GET" action="{% url 'download_dealer_po_report' dealer.id %}">
             <label for="month">Select Month:</label>
@@ -34,10 +31,12 @@
             {% endfor %}
         </select>
         <button type="submit" class="btn btn-success">Download Excel</button>
+         <a href="{% url 'add_dealer_order' dealer.id %}" class="btn btn-success">Add New Order</a>
+        <a href="{% url 'dealer_list' %}" class="btn btn-secondary">Back to Dealers</a>
     </form>
 </div>
-
-    
+</center>
+    <br><br>
     <table class="table table-bordered text-center">
         <thead class="table-light">
             <tr>

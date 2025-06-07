@@ -367,7 +367,7 @@ def dashboard(request):
     }
 
     # Admin team users get the incharge dashboard
-    if request.user.department == 'Admin team':
+    if request.user.department == 'ADMIN TEAM':
         template_name = f"logins/incharge_dashboard_{request.user.branch.lower()}.html"
     else:
         template_name = f"logins/employee_dashboard_{request.user.branch.lower()}.html"
@@ -459,7 +459,7 @@ def download_purchase_order_report(request):
     df = pd.DataFrame(data)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = f'attachment; filename=Purchase_Order_Report_{month or "All"}_{year or "All"}.xlsx'
+    response['Content-Disposition'] = f'attachment; filename=PURCHASE_ORDER_REPORT_{month or "All"}_{year or "All"}.xlsx'
 
     with pd.ExcelWriter(response, engine='openpyxl') as writer:
         df.to_excel(writer, sheet_name='Report', index=False)
@@ -606,7 +606,7 @@ def download_dealer_purchase_order_report(request, dealer_id):
 
     # Create HTTP Response with Excel file
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    filename = f"Dealer_PO_Report_{month or 'All'}_{year or 'All'}.xlsx"
+    filename = f"DEALER_PO_REPORT_{month or 'All'}_{year or 'All'}.xlsx"
     response['Content-Disposition'] = f'attachment; filename={filename}'
 
     with pd.ExcelWriter(response, engine='openpyxl') as writer:
@@ -624,7 +624,7 @@ def download_dealer_purchase_order_report(request, dealer_id):
 @login_required(login_url='login') 
 def phd_registration_report(request, branch):
     model_map = {
-        "Nagercoil": NagercoilPhdRegistration,
+        "NAGERCOIL": NagercoilPhdRegistration,
         "Tirunelveli": TirunelveliPhdRegistration,
         "Pudukottai": PudukottaiPhdRegistration,
         "Chennai": ChennaiPhdRegistration
@@ -645,14 +645,14 @@ def phd_registration_report(request, branch):
     })
 
 model_map = {
-    "Nagercoil": NagercoilPhdRegistration,
+    "NAGERCOIL": NagercoilPhdRegistration,
     "Tirunelveli": TirunelveliPhdRegistration,
     "Pudukottai": PudukottaiPhdRegistration,
     "Chennai": ChennaiPhdRegistration,
 }
 
 form_map = {
-    "Nagercoil": NagercoilPhdRegistrationForm,
+    "NAGERCOIL": NagercoilPhdRegistrationForm,
     "Tirunelveli": TirunelveliPhdRegistrationForm,
     "Pudukottai": PudukottaiPhdRegistrationForm,
     "Chennai": ChennaiPhdRegistrationForm,
@@ -1036,7 +1036,7 @@ def download_report(request, model, branch, filename):
 # Define views for different reports
 def download_phd_report(request, branch):
     model_map = {
-        'Nagercoil': NagercoilPhdRegistration,
+        'NAGERCOIL': NagercoilPhdRegistration,
         'Tirunelveli': TirunelveliPhdRegistration,
         'Pudukottai': PudukottaiPhdRegistration,
         'Chennai': ChennaiPhdRegistration
@@ -1048,7 +1048,7 @@ def download_phd_report(request, branch):
 
 def download_project_report(request, branch):
     model_map = {
-        'Nagercoil': NagercoilProjectRegistration,
+        'NAGERCOIL': NagercoilProjectRegistration,
         'Tirunelveli': TirunelveliProjectRegistration,
         'Pudukottai': PudukottaiProjectRegistration,
         'Chennai': ChennaiProjectRegistration

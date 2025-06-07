@@ -3,19 +3,20 @@ from django.db import models
 
 class User(AbstractUser):
     DEPARTMENT_CHOICES = [
-        ('journal team', 'Journal Team'),
-        ('Research work development team', 'Research Work Development Team'),
-        ('software project development team', 'Software Project Development Team'),
-        ('hardware project development team', 'Hardware Project Development Team'),
-        ('Technical team', 'Technical Team'),
-        ('Admin team', 'Admin Team'),
+        ('JOURNAL TEAM', 'JOURNAL TEAM'),
+        ('RESEARCH WORK DEVELOPMENT TEAM', 'RESEARCH WORK DEVELOPMENT TEAM'),
+        ('SOFTWARE PROJECT DEVELOPMENT TEAM', 'SOFTWARE PROJECT DEVELOPMENT TEAM'),
+        ('HARDWARE PROJECT DEVELOPMENT TEAM', 'HARDWARE PROJECT DEVELOPMENT TEAM'),
+        ('TECHNICAL TEAM', 'TECHNICAL TEAM'),
+        ('ADMIN TEAM', 'ADMIN TEAM'),
     ]
 
     BRANCH_CHOICES = [
-        ('Nagercoil', 'Nagercoil'),
-        ('Tirunelveli', 'Tirunelveli'),
-        ('Pudukottai', 'Pudukottai'),
-        ('Chennai', 'Chennai'),
+        ('NAGERCOIL', 'NAGERCOIL'),
+        ('TIRUNELVELI', 'TIRUNELVELI'),
+        ('CHENNAI', 'CHENNAI'),
+        ('PUDUKOTTAI', 'PUDUKOTTAI'),
+        
     ]
 
     department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES)
@@ -29,10 +30,11 @@ class User(AbstractUser):
 
 class PurchaseOrder(models.Model):
     BRANCH_CHOICES = [
-        ('Nagercoil', 'Nagercoil'),
-        ('Tirunelveli', 'Tirunelveli'),
-        ('Pudukottai', 'Pudukottai'),
-        ('Chennai', 'Chennai'),
+        ('NAGERCOIL', 'NAGERCOIL'),
+        ('TIRUNELVELI', 'TIRUNELVELI'),
+        ('CHENNAI', 'CHENNAI'),
+        ('PUDUKOTTAI', 'PUDUKOTTAI'),
+        
     ]
 
     date = models.DateField()
@@ -59,10 +61,11 @@ class Dealer(models.Model):
 # models.py
 class DealerPurchaseOrder(models.Model):
     BRANCH_CHOICES = [
-        ('Nagercoil', 'Nagercoil'),
-        ('Tirunelveli', 'Tirunelveli'),
-        ('Pudukottai', 'Pudukottai'),
-        ('Chennai', 'Chennai'),
+        ('NAGERCOIL', 'NAGERCOIL'),
+        ('TIRUNELVELI', 'TIRUNELVELI'),
+        ('CHENNAI', 'CHENNAI'),
+        ('PUDUKOTTAI', 'PUDUKOTTAI'),
+        
     ]
 
     dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE)
