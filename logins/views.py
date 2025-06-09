@@ -3,7 +3,7 @@ from datetime import datetime
 import pandas as pd
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
-from django.views.decorators.cache import cache_control
+from django.views.decorators.cache import cache_control,never_cache
 from .forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -26,7 +26,8 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'logins/register.html', {'form': form})
-    
+
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def user_login(request):
     if request.method == 'POST':
@@ -444,9 +445,9 @@ def download_purchase_order_report(request):
     data = []
     for i, order in enumerate(orders, start=1):
         data.append({
-            'S.No': i,
+            'S.NO': i,
             'DATE': order.date.strftime('%Y-%m-%d'),
-            'PO No.': order.po_no,
+            'PO NO.': order.po_no,
             'BRANCH': order.branch,
             'DEALER': order.dealer,
             'MATERIAL RECEIVED ON': order.material_received_on.strftime('%Y-%m-%d') if order.material_received_on else '',
@@ -993,18 +994,18 @@ def download_report(request, model, branch, filename):
     data = []
     for index, record in enumerate(records, start=1):  # Start numbering from 1
         row = {
-            'S.No': index,  # Use sequential numbering
-            'Date': record.date.strftime('%Y-%m-%d'),  # Ensure correct date format
-            'Reg Code': record.reg_code,
-            'Name': record.name,
-            'Department': record.department,
-            'Type': getattr(record, 'phd_type', '') or getattr(record, 'project_type', '') or 
+            'S.NO': index,  # Use sequential numbering
+            'DATE': record.date.strftime('%Y-%m-%d'),  # Ensure correct date format
+            'REG CODE': record.reg_code,
+            'NAME': record.name,
+            'DEPARTMENT': record.department,
+            'TYPE': getattr(record, 'phd_type', '') or getattr(record, 'project_type', '') or 
                     getattr(record, 'internship_type', '') or getattr(record, 'publication_type', ''),
-            'College/University or Institution': getattr(record, 'college_university', '') or getattr(record, 'institution', ''),
-            'Mobile No': record.mobile_no,
-            'Email Id': record.email_id,
-            'Amount Paid': record.amount_paid,
-            'Amount Balance': record.amount_balance
+            'COLLEGE/UNIVERSITY': getattr(record, 'college_university', '') or getattr(record, 'institution', ''),
+            'MOBILE NO': record.mobile_no,
+            'EMAIL ID': record.email_id,
+            'AMOUNT PAID': record.amount_paid,
+            'AMOUNT BALANCE': record.amount_balance
         }
         data.append(row)
 
@@ -1045,7 +1046,7 @@ def download_phd_report(request, branch):
     model = model_map.get(branch)
     if not model:
         return HttpResponse("Invalid branch.", status=400)
-    return download_report(request, model, branch, 'PhD_Registration_Report')
+    return download_report(request, model, branch, 'PHD_REGISTRATION_REPORT')
 
 def download_project_report(request, branch):
     model_map = {
@@ -1057,7 +1058,7 @@ def download_project_report(request, branch):
     model = model_map.get(branch)
     if not model:
         return HttpResponse("Invalid branch.", status=400)
-    return download_report(request, model, branch, 'Project_Registration_Report')
+    return download_report(request, model, branch, 'PROJECT_REGISTRATION_REPORT')
 
 def download_internship_report(request, branch):
     model_map = {
@@ -1069,7 +1070,7 @@ def download_internship_report(request, branch):
     model = model_map.get(branch)
     if not model:
         return HttpResponse("Invalid branch.", status=400)
-    return download_report(request, model, branch, 'Internship_Registration_Report')
+    return download_report(request, model, branch, 'INTERNSHIP_REGISTRATION_REPORT')
 
 def download_publication_report(request, branch):
     model_map = {
@@ -1081,7 +1082,7 @@ def download_publication_report(request, branch):
     model = model_map.get(branch)
     if not model:
         return HttpResponse("Invalid branch.", status=400)
-    return download_report(request, model, branch, 'Publication_Registration_Report')
+    return download_report(request, model, branch, 'PUBLICATION_REGISTRATION_REPORT')
 
 def download_income_expenditure_report(request, branch):
     model_map = {
@@ -1095,7 +1096,7 @@ def download_income_expenditure_report(request, branch):
     if not model:
         return HttpResponse("Invalid branch.", status=400)
     
-    return download_report_income(request, model, branch, 'Daily_Income_Expenditure_Report')
+    return download_report_income(request, model, branch, 'DAILY_INCOME_EXPENDITURE_REPORT')
 
 def download_report_income(request, model, branch, filename):
     month = request.GET.get('month')
@@ -1116,13 +1117,13 @@ def download_report_income(request, model, branch, filename):
     data = []
     for index, record in enumerate(records, start=1): 
         row = {
-            'S.No': index,
-            'Date': record.date.strftime('%Y-%m-%d'),
-            'Description': record.description,
-            'Income': record.income,
-            'Expense': record.expense,
-            'PVC No': record.pvc_no,
-            'Balance': record.balance
+            'S.NO': index,
+            'DATE': record.date.strftime('%Y-%m-%d'),
+            'DESCRIPTION': record.description,
+            'INCOME': record.income,
+            'EXPENSE': record.expense,
+            'PVC NO': record.pvc_no,
+            'BALANCE': record.balance
         }
         data.append(row)
 
@@ -1342,7 +1343,7 @@ def download_payment_voucher_report(request, branch):
     if not model:
         return HttpResponse("Invalid branch.", status=400)
     
-    return download_report_payment_voucher(request, model, branch, 'Payment_Voucher_Report')
+    return download_report_payment_voucher(request, model, branch, 'PAYMENT_VOUCHER_REPORT')
 
 def download_report_payment_voucher(request, model, branch, filename):
     month = request.GET.get('month')
@@ -1362,12 +1363,12 @@ def download_report_payment_voucher(request, model, branch, filename):
     data = []
     for index, record in enumerate(records, start=1): 
         row = {
-            'S.No': index,
-            'Date': record.date.strftime('%Y-%m-%d'),
-            'VC No': record.vc_no,
-            'Purpose': record.purpose,
-            'Online (A/C)': record.online_payment,  # ✅ Updated field name
-            'Cash': record.cash_payment  # ✅ Updated field name
+            'S.NO': index,
+            'DATE': record.date.strftime('%Y-%m-%d'),
+            'VC NO': record.vc_no,
+            'PURPOSE': record.purpose,
+            'ONLINE (A/C)': record.online_payment,  # ✅ Updated field name
+            'CASH': record.cash_payment  # ✅ Updated field name
         }
         data.append(row)
 
@@ -1467,7 +1468,7 @@ def export_bills_to_excel(request, branch, bill_type):
     ws = wb.add_sheet('Bills')
 
     # Header
-    columns = ['S.No', 'Date', 'Bill Number', 'Reg No','Name','AMT_RECEIVED', 'mode of payment']
+    columns = ['S.NO', 'DATE', 'BILL NUMBER', 'REG NO','NAME','AMOUNT_RECEIVED', 'MODE OF PAYMENT']
     for col_num, col_name in enumerate(columns):
         ws.write(0, col_num, col_name)
 
