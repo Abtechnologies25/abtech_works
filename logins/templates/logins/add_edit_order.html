@@ -1,12 +1,26 @@
 {% extends "logins/base.html" %}
+{% load widget_tweaks %}
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center">{{ action }} Purchase Order for {{ dealer.name }}</h2>
+    <h2 class="text-center" style="font-weight:900">{{ action }} Purchase Order for {{ dealer.name }}</h2>
+   <center>
+<div class=" addmain mt-5">
     <form method="post" class="mt-4">
         {% csrf_token %}
-        {{ form.as_p }}
+    {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {% render_field field class="form-control" %}
+                {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
         <button type="submit" class="btn btn-success">{{ action }}</button>
         <a href="{% url 'dealer_purchase_orders' dealer.id %}" class="btn btn-secondary">Cancel</a>
     </form>
+    </div>
+    </center>
 </div>
+<br><br>
 {% endblock %}

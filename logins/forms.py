@@ -303,10 +303,14 @@ class BaseBillForm(forms.ModelForm):
         }
 
 # Dynamically generate forms
-for model in [NagercoilPhdBill, NagercoilInternshipBill, NagercoilProjectBill, NagercoilJournalBill, NagercoilSharingBill, NagercoilPatentBill,
-              TirunelveliPhdBill, TirunelveliInternshipBill, TirunelveliProjectBill, TirunelveliJournalBill, TirunelveliSharingBill, TirunelveliPatentBill,
-              PudukottaiPhdBill, PudukottaiInternshipBill, PudukottaiProjectBill, PudukottaiJournalBill, PudukottaiSharingBill, PudukottaiPatentBill,
-              ChennaiPhdBill, ChennaiInternshipBill, ChennaiProjectBill, ChennaiJournalBill, ChennaiSharingBill, ChennaiPatentBill]:
+for model in [NAGERCOILPHDBILL, NAGERCOILINTERNSHIPBILL, NAGERCOILPROJECTBILL, NAGERCOILJOURNALBILL, NAGERCOILSHARINGBILL, NAGERCOILPATENTBILL,
+
+              TIRUNELVELIPHDBILL, TIRUNELVELIINTERNSHIPBILL, TIRUNELVELIPROJECTBILL, TIRUNELVELIJOURNALBILL, TIRUNELVELISHARINGBILL, TIRUNELVELIPATENTBILL,
+
+              PUDUKOTTAIPHDBILL, PUDUKOTTAIINTERNSHIPBILL, PUDUKOTTAIPROJECTBILL, PUDUKOTTAIJOURNALBILL, PUDUKOTTAISHARINGBILL, PUDUKOTTAIPATENTBILL,
+
+
+              CHENNAIPHDBILL, CHENNAIINTERNSHIPBILL, CHENNAIPROJECTBILL, CHENNAIJOURNALBILL, CHENNAISHARINGBILL, CHENNAIPATENTBILL]:
     
     form_class = type(f"{model.__name__}Form", (BaseBillForm,), {'Meta': type('Meta', (), {'model': model, **BaseBillForm.Meta.__dict__})})
     globals()[form_class.__name__] = form_class

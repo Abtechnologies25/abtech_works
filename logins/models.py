@@ -357,122 +357,122 @@ class AbstractBill(models.Model):
     def __str__(self):
         return f"{self.name} - {self.bill_number}"
 
-class NagercoilPhdBill(AbstractBill):
+class NAGERCOILPHDBILL(AbstractBill):
     class Meta:
         verbose_name = "Nagercoil PHD Bill"
         verbose_name_plural = "Nagercoil PHD Bills"
 
-class TirunelveliPhdBill(AbstractBill):
+class TIRUNELVELIPHDBILL(AbstractBill):
     class Meta:
         verbose_name = "Tirunelveli PHD Bill"
         verbose_name_plural = "Tirunelveli PHD Bills"
 
-class PudukottaiPhdBill(AbstractBill):
+class PUDUKOTTAIPHDBILL(AbstractBill):
     class Meta:
         verbose_name = "Pudukottai PHD Bill"
         verbose_name_plural = "Pudukottai PHD Bills"
 
-class ChennaiPhdBill(AbstractBill):
+class CHENNAIPHDBILL(AbstractBill):
     class Meta:
         verbose_name = "Chennai PHD Bill"
         verbose_name_plural = "Chennai PHD Bills"
 
-class NagercoilInternshipBill(AbstractBill):
+class NAGERCOILINTERNSHIPBILL(AbstractBill):
     class Meta:
         verbose_name = "Nagercoil Internship Bill"
         verbose_name_plural = "Nagercoil Internship Bills"
 
-class TirunelveliInternshipBill(AbstractBill):
+class TIRUNELVELIINTERNSHIPBILL(AbstractBill):
     class Meta:
         verbose_name = "Tirunelveli Internship Bill"
         verbose_name_plural = "Tirunelveli Internship Bills"
 
-class PudukottaiInternshipBill(AbstractBill):
+class PUDUKOTTAIINTERNSHIPBILL(AbstractBill):
     class Meta:
         verbose_name = "Pudukottai Internship Bill"
         verbose_name_plural = "Pudukottai Internship Bills"
 
-class ChennaiInternshipBill(AbstractBill):
+class CHENNAIINTERNSHIPBILL(AbstractBill):
     class Meta:
         verbose_name = "Chennai Internship Bill"
         verbose_name_plural = "Chennai Internship Bills"
 
-class NagercoilProjectBill(AbstractBill):
+class NAGERCOILPROJECTBILL(AbstractBill):
     class Meta:
         verbose_name = "Nagercoil Project Bill"
         verbose_name_plural = "Nagercoil Project Bills"
 
-class TirunelveliProjectBill(AbstractBill):
+class TIRUNELVELIPROJECTBILL(AbstractBill):
     class Meta:
         verbose_name = "Tirunelveli Project Bill"
         verbose_name_plural = "Tirunelveli Project Bills"
 
-class PudukottaiProjectBill(AbstractBill):
+class PUDUKOTTAIPROJECTBILL(AbstractBill):
     class Meta:
         verbose_name = "Pudukottai Project Bill"
         verbose_name_plural = "Pudukottai Project Bills"
 
-class ChennaiProjectBill(AbstractBill):
+class CHENNAIPROJECTBILL(AbstractBill):
     class Meta:
         verbose_name = "Chennai Project Bill"
         verbose_name_plural = "Chennai Project Bills"
 
-class NagercoilJournalBill(AbstractBill):
+class NAGERCOILJOURNALBILL(AbstractBill):
     class Meta:
         verbose_name = "Nagercoil Journal Bill"
         verbose_name_plural = "Nagercoil Journal Bills"
 
-class TirunelveliJournalBill(AbstractBill):
+class TIRUNELVELIJOURNALBILL(AbstractBill):
     class Meta:
         verbose_name = "Tirunelveli Journal Bill"
         verbose_name_plural = "Tirunelveli Journal Bills"
 
-class PudukottaiJournalBill(AbstractBill):
+class PUDUKOTTAIJOURNALBILL(AbstractBill):
     class Meta:
         verbose_name = "Pudukottai Journal Bill"
         verbose_name_plural = "Pudukottai Journal Bills"
 
-class ChennaiJournalBill(AbstractBill):
+class CHENNAIJOURNALBILL(AbstractBill):
     class Meta:
         verbose_name = "Chennai Journal Bill"
         verbose_name_plural = "Chennai Journal Bills"
 
-class NagercoilSharingBill(AbstractBill):
+class NAGERCOILSHARINGBILL(AbstractBill):
     class Meta:
         verbose_name = "Nagercoil Sharing Bill"
         verbose_name_plural = "Nagercoil Sharing Bills"
 
-class TirunelveliSharingBill(AbstractBill):
+class TIRUNELVELISHARINGBILL(AbstractBill):
     class Meta:
         verbose_name = "Tirunelveli Sharing Bill"
         verbose_name_plural = "Tirunelveli Sharing Bills"
 
-class PudukottaiSharingBill(AbstractBill):
+class PUDUKOTTAISHARINGBILL(AbstractBill):
     class Meta:
         verbose_name = "Pudukottai Sharing Bill"
         verbose_name_plural = "Pudukottai Sharing Bills"
 
-class ChennaiSharingBill(AbstractBill):
+class CHENNAISHARINGBILL(AbstractBill):
     class Meta:
         verbose_name = "Chennai Sharing Bill"
         verbose_name_plural = "Chennai Sharing Bills"
 
-class NagercoilPatentBill(AbstractBill):
+class NAGERCOILPATENTBILL(AbstractBill):
     class Meta:
         verbose_name = "Nagercoil Patent Bill"
         verbose_name_plural = "Nagercoil Patent Bills"
 
-class TirunelveliPatentBill(AbstractBill):
+class TIRUNELVELIPATENTBILL(AbstractBill):
     class Meta:
         verbose_name = "Tirunelveli Patent Bill"
         verbose_name_plural = "Tirunelveli Patent Bills"
 
-class PudukottaiPatentBill(AbstractBill):
+class PUDUKOTTAIPATENTBILL(AbstractBill):
     class Meta:
         verbose_name = "Pudukottai Patent Bill"
         verbose_name_plural = "Pudukottai Patent Bills"
 
-class ChennaiPatentBill(AbstractBill):
+class CHENNAIPATENTBILL(AbstractBill):
     class Meta:
         verbose_name = "Chennai Patent Bill"
         verbose_name_plural = "Chennai Patent Bills"

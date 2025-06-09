@@ -26,7 +26,8 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'logins/register.html', {'form': form})
-
+    
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def user_login(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
@@ -64,45 +65,45 @@ def admin_dashboard(request):
     pudukottai_payment_vouchers = PudukottaiPaymentVoucher.objects.all()
     chennai_payment_vouchers = ChennaiPaymentVoucher.objects.all()
     phd_bills = {
-        'Nagercoil': NagercoilPhdBill.objects.all(),
-        'Tirunelveli': TirunelveliPhdBill.objects.all(),
-        'Pudukottai': PudukottaiPhdBill.objects.all(),
-        'Chennai': ChennaiPhdBill.objects.all(),
+        'NAGERCOIL': NagercoilPhdBill.objects.all(),
+        'TIRUNELVELI': TirunelveliPhdBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiPhdBill.objects.all(),
+        'CHENNAI': ChennaiPhdBill.objects.all(),
     }
 
     internship_bills = {
-        'Nagercoil': NagercoilInternshipBill.objects.all(),
-        'Tirunelveli': TirunelveliInternshipBill.objects.all(),
-        'Pudukottai': PudukottaiInternshipBill.objects.all(),
-        'Chennai': ChennaiInternshipBill.objects.all(),
+        'NAGERCOIL': NagercoilInternshipBill.objects.all(),
+        'TIRUNELVELI': TirunelveliInternshipBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiInternshipBill.objects.all(),
+        'CHENNAI': ChennaiInternshipBill.objects.all(),
     }
 
     project_bills = {
         'Nagercoil': NagercoilProjectBill.objects.all(),
         'Tirunelveli': TirunelveliProjectBill.objects.all(),
         'Pudukottai': PudukottaiProjectBill.objects.all(),
-        'Chennai': ChennaiProjectBill.objects.all(),
+        'CHENNAI': ChennaiProjectBill.objects.all(),
     }
 
     journal_bills = {
         'Nagercoil': NagercoilJournalBill.objects.all(),
         'Tirunelveli': TirunelveliJournalBill.objects.all(),
         'Pudukottai': PudukottaiJournalBill.objects.all(),
-        'Chennai': ChennaiJournalBill.objects.all(),
+        'CHENNAI': ChennaiJournalBill.objects.all(),
     }
 
     sharing_bills = {
         'Nagercoil': NagercoilSharingBill.objects.all(),
         'Tirunelveli': TirunelveliSharingBill.objects.all(),
         'Pudukottai': PudukottaiSharingBill.objects.all(),
-        'Chennai': ChennaiSharingBill.objects.all(),
+        'CHENNAI': ChennaiSharingBill.objects.all(),
     }
 
     patent_bills = {
         'Nagercoil': NagercoilPatentBill.objects.all(),
         'Tirunelveli': TirunelveliPatentBill.objects.all(),
         'Pudukottai': PudukottaiPatentBill.objects.all(),
-        'Chennai': ChennaiPatentBill.objects.all(),
+        'CHENNAI': ChennaiPatentBill.objects.all(),
     }
     work_status_records = WorkStatus.objects.all()
     DEPARTMENT_CHOICES = [
@@ -234,47 +235,47 @@ def pudukottai_admin_dashboard(request):
     }
     return render(request, 'logins/pudukottai_admin_dashboard.html', context)
 def billwise_admin_dashboard(request):
-    BRANCHES = ['Nagercoil', 'Tirunelveli', 'Pudukottai', 'Chennai']
+    BRANCHES = ['NAGERCOIL', 'TIRUNELVELI', 'PUDUKOTTAI', 'CHENNAI']
     phd_bills = {
-        'Nagercoil': NagercoilPhdBill.objects.all(),
-        'Tirunelveli': TirunelveliPhdBill.objects.all(),
-        'Pudukottai': PudukottaiPhdBill.objects.all(),
-        'Chennai': ChennaiPhdBill.objects.all(),
+        'NAGERCOIL': NagercoilPhdBill.objects.all(),
+        'TIRUNELVELI': TirunelveliPhdBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiPhdBill.objects.all(),
+        'CHENNAI': ChennaiPhdBill.objects.all(),
     }
 
     internship_bills = {
-        'Nagercoil': NagercoilInternshipBill.objects.all(),
-        'Tirunelveli': TirunelveliInternshipBill.objects.all(),
-        'Pudukottai': PudukottaiInternshipBill.objects.all(),
-        'Chennai': ChennaiInternshipBill.objects.all(),
+        'NAGERCOIL': NagercoilInternshipBill.objects.all(),
+        'TIRUNELVELI': TirunelveliInternshipBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiInternshipBill.objects.all(),
+        'CHENNAI': ChennaiInternshipBill.objects.all(),
     }
 
     project_bills = {
-        'Nagercoil': NagercoilProjectBill.objects.all(),
-        'Tirunelveli': TirunelveliProjectBill.objects.all(),
-        'Pudukottai': PudukottaiProjectBill.objects.all(),
-        'Chennai': ChennaiProjectBill.objects.all(),
+        'NAGERCOIL': NagercoilProjectBill.objects.all(),
+        'TIRUNELVELI': TirunelveliProjectBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiProjectBill.objects.all(),
+        'CHENNAI': ChennaiProjectBill.objects.all(),
     }
 
     journal_bills = {
-        'Nagercoil': NagercoilJournalBill.objects.all(),
-        'Tirunelveli': TirunelveliJournalBill.objects.all(),
-        'Pudukottai': PudukottaiJournalBill.objects.all(),
-        'Chennai': ChennaiJournalBill.objects.all(),
+        'NAGERCOIL': NagercoilJournalBill.objects.all(),
+        'TIRUNELVELI': TirunelveliJournalBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiJournalBill.objects.all(),
+        'CHENNAI': ChennaiJournalBill.objects.all(),
     }
 
     sharing_bills = {
-        'Nagercoil': NagercoilSharingBill.objects.all(),
-        'Tirunelveli': TirunelveliSharingBill.objects.all(),
-        'Pudukottai': PudukottaiSharingBill.objects.all(),
-        'Chennai': ChennaiSharingBill.objects.all(),
+        'NAGERCOIL': NagercoilSharingBill.objects.all(),
+        'TIRUNELVELI': TirunelveliSharingBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiSharingBill.objects.all(),
+        'CHENNAI': ChennaiSharingBill.objects.all(),
     }
 
     patent_bills = {
-        'Nagercoil': NagercoilPatentBill.objects.all(),
-        'Tirunelveli': TirunelveliPatentBill.objects.all(),
-        'Pudukottai': PudukottaiPatentBill.objects.all(),
-        'Chennai': ChennaiPatentBill.objects.all(),
+        'NAGERCOIL': NagercoilPatentBill.objects.all(),
+        'TIRUNELVELI': TirunelveliPatentBill.objects.all(),
+        'PUDUKOTTAI': PudukottaiPatentBill.objects.all(),
+        'CHENNAI': ChennaiPatentBill.objects.all(),
     }
     context={
         'phd_bills': phd_bills,
@@ -286,22 +287,22 @@ def billwise_admin_dashboard(request):
     }
     return render(request, 'logins/billwise_admin_dashboard.html', context)
 def workstatus_admin_dashboard(request):
-    BRANCHES = ['Nagercoil', 'Tirunelveli', 'Pudukottai', 'Chennai']
+    BRANCHES = ['NAGERCOIL', 'TIRUNELVELI', 'PUDUKOTTAI', 'CHENNAI']
     DEPARTMENT_CHOICES = [
-    'journal team',
-    'Research work development team',
-    'software project development team',
-    'hardware project development team',
-    'Technical team',
-    'Admin team',
+    'JOURNAL TEAM',
+    'RESEARCH WORK DEVELOPMENT TEAM',
+    'SOFTWARE PROJECT DEVELOPMENT TEAM',
+    'HARDWARE PROJECT DEVELOPMENT TEAM',
+    'TECHNICAL TEAM',
+    'ADMIN TEAM',
     ]
     work_status_records = WorkStatus.objects.all()
 
     context={
-    'nagercoil_work_status': work_status_records.filter(branch='Nagercoil').order_by('-date'),
-    'tirunelveli_work_status': work_status_records.filter(branch='Tirunelveli').order_by('-date'),
-    'pudukottai_work_status': work_status_records.filter(branch='Pudukottai').order_by('-date'),
-    'chennai_work_status': work_status_records.filter(branch='Chennai').order_by('-date'),
+    'nagercoil_work_status': work_status_records.filter(branch='NAGERCOIL').order_by('-date'),
+    'tirunelveli_work_status': work_status_records.filter(branch='TIRUNELVELI').order_by('-date'),
+    'pudukottai_work_status': work_status_records.filter(branch='PUDUKOTTAI').order_by('-date'),
+    'chennai_work_status': work_status_records.filter(branch='CHENNAI').order_by('-date'),
     'departments': DEPARTMENT_CHOICES,
     'branches': BRANCHES,
     }
@@ -625,9 +626,9 @@ def download_dealer_purchase_order_report(request, dealer_id):
 def phd_registration_report(request, branch):
     model_map = {
         "NAGERCOIL": NagercoilPhdRegistration,
-        "Tirunelveli": TirunelveliPhdRegistration,
-        "Pudukottai": PudukottaiPhdRegistration,
-        "Chennai": ChennaiPhdRegistration
+        "TIRUNELVELI": TirunelveliPhdRegistration,
+        "PUDUKOTTAI": PudukottaiPhdRegistration,
+        "CHENNAI": ChennaiPhdRegistration
     }
 
     if branch not in model_map:
@@ -646,16 +647,16 @@ def phd_registration_report(request, branch):
 
 model_map = {
     "NAGERCOIL": NagercoilPhdRegistration,
-    "Tirunelveli": TirunelveliPhdRegistration,
-    "Pudukottai": PudukottaiPhdRegistration,
-    "Chennai": ChennaiPhdRegistration,
+    "TIRUNELVELI": TirunelveliPhdRegistration,
+    "PUDUKOTTAI": PudukottaiPhdRegistration,
+    "CHENNAI": ChennaiPhdRegistration,
 }
 
 form_map = {
     "NAGERCOIL": NagercoilPhdRegistrationForm,
-    "Tirunelveli": TirunelveliPhdRegistrationForm,
-    "Pudukottai": PudukottaiPhdRegistrationForm,
-    "Chennai": ChennaiPhdRegistrationForm,
+    "TIRUNELVELI": TirunelveliPhdRegistrationForm,
+    "PUDUKOTTAI": PudukottaiPhdRegistrationForm,
+    "CHENNAI": ChennaiPhdRegistrationForm,
 }
 
 # Add View
@@ -717,17 +718,17 @@ def delete_phd_registration(request, branch, record_id):
     return redirect('phd_registration_report', branch=branch)
 
 project_model_map = {
-    "Nagercoil": NagercoilProjectRegistration,
-    "Tirunelveli": TirunelveliProjectRegistration,
-    "Pudukottai": PudukottaiProjectRegistration,
-    "Chennai": ChennaiProjectRegistration,
+    "NAGERCOIL": NagercoilProjectRegistration,
+    "TIRUNELVELI": TirunelveliProjectRegistration,
+    "PUDUKOTTAI": PudukottaiProjectRegistration,
+    "CHENNAI": ChennaiProjectRegistration,
 }
 
 project_form_map = {
-    "Nagercoil": NagercoilProjectRegistrationForm,
-    "Tirunelveli": TirunelveliProjectRegistrationForm,
-    "Pudukottai": PudukottaiProjectRegistrationForm,
-    "Chennai": ChennaiProjectRegistrationForm,
+    "NAGERCOIL": NagercoilProjectRegistrationForm,
+    "TIRUNELVELI": TirunelveliProjectRegistrationForm,
+    "PUDUKOTTAI": PudukottaiProjectRegistrationForm,
+    "CHENNAI": ChennaiProjectRegistrationForm,
 }
 
 # Project Registration Report View
@@ -804,17 +805,17 @@ def delete_project_registration(request, branch, record_id):
     return redirect('project_registration_report', branch=branch)
 
 intern_model_map = {
-    "Nagercoil": NagercoilInternshipRegistration,
-    "Tirunelveli": TirunelveliInternshipRegistration,
-    "Pudukottai": PudukottaiInternshipRegistration,
-    "Chennai": ChennaiInternshipRegistration,
+    "NAGERCOIL": NagercoilInternshipRegistration,
+    "TIRUNELVELI": TirunelveliInternshipRegistration,
+    "PUDUKOTTAI": PudukottaiInternshipRegistration,
+    "CHENNAI": ChennaiInternshipRegistration,
 }
 
 intern_form_map = {
-    "Nagercoil": NagercoilInternshipRegistrationForm,
-    "Tirunelveli": TirunelveliInternshipRegistrationForm,
-    "Pudukottai": PudukottaiInternshipRegistrationForm,
-    "Chennai": ChennaiInternshipRegistrationForm,
+    "NAGERCOIL": NagercoilInternshipRegistrationForm,
+    "TIRUNELVELI": TirunelveliInternshipRegistrationForm,
+    "PUDUKOTTAI": PudukottaiInternshipRegistrationForm,
+    "CHENNAI": ChennaiInternshipRegistrationForm,
 }
 
 @login_required(login_url='login') 
@@ -887,17 +888,17 @@ def delete_internship_registration(request, branch, record_id):
     return redirect('internship_registration_report', branch=branch)
 
 pub_model_map = {
-    "Nagercoil": NagercoilPublicationRegistration,
-    "Tirunelveli": TirunelveliPublicationRegistration,
-    "Pudukottai": PudukottaiPublicationRegistration,
-    "Chennai": ChennaiPublicationRegistration,
+    "NAGERCOIL": NagercoilPublicationRegistration,
+    "TIRUNELVELI": TirunelveliPublicationRegistration,
+    "PUDUKOTTAI": PudukottaiPublicationRegistration,
+    "CHENNAI": ChennaiPublicationRegistration,
 }
 
 pub_form_map = {
-    "Nagercoil": NagercoilPublicationRegistrationForm,
-    "Tirunelveli": TirunelveliPublicationRegistrationForm,
-    "Pudukottai": PudukottaiPublicationRegistrationForm,
-    "Chennai": ChennaiPublicationRegistrationForm,
+    "NAGERCOIL": NagercoilPublicationRegistrationForm,
+    "TIRUNELVELI": TirunelveliPublicationRegistrationForm,
+    "PUDUKOTTAI": PudukottaiPublicationRegistrationForm,
+    "CHENNAI": ChennaiPublicationRegistrationForm,
 }
 
 @login_required(login_url='login')
@@ -1037,9 +1038,9 @@ def download_report(request, model, branch, filename):
 def download_phd_report(request, branch):
     model_map = {
         'NAGERCOIL': NagercoilPhdRegistration,
-        'Tirunelveli': TirunelveliPhdRegistration,
-        'Pudukottai': PudukottaiPhdRegistration,
-        'Chennai': ChennaiPhdRegistration
+        'TIRUNELVELI': TirunelveliPhdRegistration,
+        'PUDUKOTTAI': PudukottaiPhdRegistration,
+        'CHENNAI': ChennaiPhdRegistration
     }
     model = model_map.get(branch)
     if not model:
@@ -1049,9 +1050,9 @@ def download_phd_report(request, branch):
 def download_project_report(request, branch):
     model_map = {
         'NAGERCOIL': NagercoilProjectRegistration,
-        'Tirunelveli': TirunelveliProjectRegistration,
-        'Pudukottai': PudukottaiProjectRegistration,
-        'Chennai': ChennaiProjectRegistration
+        'TIRUNELVELI': TirunelveliProjectRegistration,
+        'PUDUKOTTAI': PudukottaiProjectRegistration,
+        'CHENNAI': ChennaiProjectRegistration
     }
     model = model_map.get(branch)
     if not model:
@@ -1060,10 +1061,10 @@ def download_project_report(request, branch):
 
 def download_internship_report(request, branch):
     model_map = {
-        'Nagercoil': NagercoilInternshipRegistration,
-        'Tirunelveli': TirunelveliInternshipRegistration,
-        'Pudukottai': PudukottaiInternshipRegistration,
-        'Chennai': ChennaiInternshipRegistration
+        'NAGERCOIL': NagercoilInternshipRegistration,
+        'TIRUNELVELI': TirunelveliInternshipRegistration,
+        'PUDUKOTTAI': PudukottaiInternshipRegistration,
+        'CHENNAI': ChennaiInternshipRegistration
     }
     model = model_map.get(branch)
     if not model:
@@ -1072,10 +1073,10 @@ def download_internship_report(request, branch):
 
 def download_publication_report(request, branch):
     model_map = {
-        'Nagercoil': NagercoilPublicationRegistration,
-        'Tirunelveli': TirunelveliPublicationRegistration,
-        'Pudukottai': PudukottaiPublicationRegistration,
-        'Chennai': ChennaiPublicationRegistration
+        'NAGERCOIL': NagercoilPublicationRegistration,
+        'TIRUNELVELI': TirunelveliPublicationRegistration,
+        'PUDUKOTTAI': PudukottaiPublicationRegistration,
+        'CHENNAI': ChennaiPublicationRegistration
     }
     model = model_map.get(branch)
     if not model:
@@ -1084,10 +1085,10 @@ def download_publication_report(request, branch):
 
 def download_income_expenditure_report(request, branch):
     model_map = {
-        'Nagercoil': NagercoilDailyIncomeExpenditure,
-        'Tirunelveli': TirunelveliDailyIncomeExpenditure,
-        'Pudukottai': PudukottaiDailyIncomeExpenditure,
-        'Chennai': ChennaiDailyIncomeExpenditure
+        'NAGERCOIL': NagercoilDailyIncomeExpenditure,
+        'TIRUNELVELI': TirunelveliDailyIncomeExpenditure,
+        'PUDUKOTTAI': PudukottaiDailyIncomeExpenditure,
+        'CHENNAI': ChennaiDailyIncomeExpenditure
     }
     model = model_map.get(branch)
     
@@ -1152,18 +1153,18 @@ def download_report_income(request, model, branch, filename):
 
 
 daily_model_map = {
-    "Nagercoil": NagercoilDailyIncomeExpenditure,
-    "Tirunelveli": TirunelveliDailyIncomeExpenditure,
-    "Pudukottai": PudukottaiDailyIncomeExpenditure,
-    "Chennai": ChennaiDailyIncomeExpenditure,
+    "NAGERCOIL": NagercoilDailyIncomeExpenditure,
+    "TIRUNELVELI": TirunelveliDailyIncomeExpenditure,
+    "PUDUKOTTAI": PudukottaiDailyIncomeExpenditure,
+    "CHENNAI": ChennaiDailyIncomeExpenditure,
 }
 
 # Form mapping for branches
 daily_form_map = {
-    "Nagercoil": NagercoilDailyIncomeExpenditureForm,
-    "Tirunelveli": TirunelveliDailyIncomeExpenditureForm,
-    "Pudukottai": PudukottaiDailyIncomeExpenditureForm,
-    "Chennai": ChennaiDailyIncomeExpenditureForm,
+    "NAGERCOIL": NagercoilDailyIncomeExpenditureForm,
+    "TIRUNELVELI": TirunelveliDailyIncomeExpenditureForm,
+    "PUDUKOTTAI": PudukottaiDailyIncomeExpenditureForm,
+    "CHENNAI": ChennaiDailyIncomeExpenditureForm,
 }
 
 # View Report
@@ -1241,17 +1242,17 @@ def delete_daily_income_expenditure(request, branch, record_id):
     return redirect('daily_income_expenditure_report', branch=branch)
 
 payment_model_map = {
-    "Nagercoil": NagercoilPaymentVoucher,
-    "Tirunelveli": TirunelveliPaymentVoucher,
-    "Pudukottai": PudukottaiPaymentVoucher,
-    "Chennai": ChennaiPaymentVoucher,
+    "NAGERCOIL": NagercoilPaymentVoucher,
+    "TIRUNELVELI": TirunelveliPaymentVoucher,
+    "PUDUKOTTAI": PudukottaiPaymentVoucher,
+    "CHENNAI": ChennaiPaymentVoucher,
 }
 
 payment_form_map = {
-    "Nagercoil": NagercoilPaymentVoucherForm,
-    "Tirunelveli": TirunelveliPaymentVoucherForm,
-    "Pudukottai": PudukottaiPaymentVoucherForm,
-    "Chennai": ChennaiPaymentVoucherForm,
+    "NAGERCOIL": NagercoilPaymentVoucherForm,
+    "TIRUNELVELI": TirunelveliPaymentVoucherForm,
+    "PUDUKOTTAI": PudukottaiPaymentVoucherForm,
+    "CHENNAI": ChennaiPaymentVoucherForm,
 }
 
 # View Payment Voucher Report
@@ -1331,10 +1332,10 @@ def delete_payment_voucher(request, branch, record_id):
 
 def download_payment_voucher_report(request, branch):
     model_map = {
-        'Nagercoil': NagercoilPaymentVoucher,
-        'Tirunelveli': TirunelveliPaymentVoucher,
-        'Pudukottai': PudukottaiPaymentVoucher,
-        'Chennai': ChennaiPaymentVoucher
+        'NAGERCOIL': NagercoilPaymentVoucher,
+        'TIRUNELVELI': TirunelveliPaymentVoucher,
+        'PUDUKOTTAI': PudukottaiPaymentVoucher,
+        'CHENNAI': ChennaiPaymentVoucher
     }
     model = model_map.get(branch)
     
@@ -1393,15 +1394,15 @@ def download_report_payment_voucher(request, model, branch, filename):
 
 
 # List of bill types
-BILL_TYPES = ["Phd", "Internship", "Project", "Journal", "Sharing", "Patent"]
+BILL_TYPES = ["PHD", "INTERNSHIP", "PROJECT", "JOURNAL", "SHARING", "PATENT"]
 
 # Map to get model/form
 def get_model(branch, bill_type):
-    model_name = f"{branch}{bill_type}Bill"
+    model_name = f"{branch}{bill_type}BILL"
     return globals()[model_name]
 
 def get_form(branch, bill_type):
-    form_name = f"{branch}{bill_type}BillForm"
+    form_name = f"{branch}{bill_type}BILLForm"
     return globals()[form_name]
 
 def billwise_dashboard(request, branch):
