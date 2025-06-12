@@ -2,11 +2,11 @@
 {% block content %}
 <!-- <div class="container mt-5"> -->
     <br><br>
-    <h2 class="text-center mb-4">DEALERS LIST</h2>
+    <h2 class="text-center mb-4" style="font-weight:900">DEALERS LIST</h2>
     <center><br>
     <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back</a><br><br>
     </center>
-    <div class="row d-flex justify-content-center align-items-center flex-column">
+    <div class="row d-flex justify-content-around align-items-center flex-wrap">
         {% for dealer in dealers %}
         
                 <div class="text-light bg-primary text-center" style="width: 300px;height: 100px;padding: 20px;border-radius: 15px;text-align: center;font-weight: 700;">
