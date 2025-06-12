@@ -1,11 +1,7 @@
 {% extends "logins/base.html" %}
 {% block content %}
 <h2 class="mt-5 text-center" style="font-weight:900">Pudukottai Incharge Dashboard</h2>
-<!-- <div class="user-details">
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Branch:</strong> {{ user.branch }}</p>
-    <p><strong>Department:</strong> {{ user.department }}</p>
-</div> -->
+
 <div class="d-flex justify-content-center align-items-center flex-wrap gap-5 mt-5">
     <a href="{% url 'phd_registration_report' 'PUDUKOTTAI' %}"><div class="box text-light bg-primary">PHD REGISTRATION REPORT</div></a>
     
@@ -21,10 +17,7 @@
     
     <a href="{% url 'billwise_dashboard' 'PUDUKOTTAI' %}"><div class="box text-light bg-primary">BILLWISE PAYMENT DASHBOARD</div></a>
     
-    <!-- <a href="{% url 'purchase_order_report' 'Pudukottai' %}">
-    <div class="box text-light bg-success">PURCHASE ORDER DASHBOARD</div>
-</a> -->
-    <!-- <a href="{% url 'logout' %}">Logout</a> -->
+  
 
 {% if department == 'Admin team' %}
 
