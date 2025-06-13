@@ -23,12 +23,12 @@
             {% for order in orders %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ order.date }}</td>
+                <td>{{ order.date|date:"d/m/Y" }}</td>
                 <td>{{ order.po_no }}</td>
                 <td>{{ order.branch }}</td>
                 <td>{{ order.dealer }}</td>
                 <td>{{ order.total_amount }}</td>
-                <td>{{ order.payment_date|default:"-" }}</td>
+                <td>{{ order.payment_date|default:"-"|date:"d/m/Y" }}</td>
                 <td>{{ order.amount_paid }}</td>
                 <td>{{ order.balance_amount }}</td>
                 <td>{{ order.status }}</td>

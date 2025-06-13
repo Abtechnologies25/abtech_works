@@ -52,6 +52,7 @@ class PurchaseOrder(models.Model):
         return f"{self.po_no} - {self.branch}"
 
 class Dealer(models.Model):
+    S_NO=models.IntegerField()
     name = models.CharField(max_length=100)
 
     def __str__(self):

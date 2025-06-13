@@ -165,7 +165,7 @@ def admin_purchase_orders(request):
     return render(request, 'logins/admin_purchase_orders.html', {'orders': orders})
 
 def admin_dealer_list(request):
-    dealers = Dealer.objects.all()
+    dealers = Dealer.objects.all().order_by('S_NO')
     return render(request, 'logins/admin_dealer_list.html', {'dealers': dealers})
 
 def admin_dealer_orders(request, dealer_id):
@@ -477,7 +477,7 @@ def download_purchase_order_report(request):
 
 # views.py
 def dealer_list(request):
-    dealers = Dealer.objects.all()
+    dealers = Dealer.objects.all().order_by('S_NO')
     return render(request, 'logins/dealer_list.html', {'dealers': dealers})
 
 

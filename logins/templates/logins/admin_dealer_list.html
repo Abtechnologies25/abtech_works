@@ -1,24 +1,36 @@
 {% extends "logins/base.html" %}
 {% block content %}
-<!-- <div class="container mt-5"> -->
-    <br><br>
-    <h2 class="text-center mb-4" style="font-weight:900">DEALERS LIST</h2>
-    <center><br>
-    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back</a><br><br>
-    </center>
-    <div class="row d-flex justify-content-around align-items-center flex-wrap">
-        {% for dealer in dealers %}
-        
-                <div class="text-light bg-primary text-center" style="width: 300px;height: 100px;padding: 20px;border-radius: 15px;text-align: center;font-weight: 700;">
-                    <h5 class="">{{ dealer.name }}</h5>
-                    <a href="{% url 'admin_dealer_orders' dealer.id %}" class="btn btn-dark">View Orders</a>
-                </div>
-        
-        {% empty %}
-        <center>
-        <p>No dealers found.</p>
-        </center>
-        {% endfor %}
-    </div>
+<br><br>
+<h2 class="text-center mb-4" style="font-weight:900">DEALERS LIST</h2>
 
+<center>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Back</a><br><br>
+</center>
+
+<div class="container">
+    <table class="table table-bordered  text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th>S.NO</th>
+                <th >DEALER NAME</th>
+                <th >VIEW</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dealer in dealers %}
+            <tr>
+                <td >{{ dealer.S_NO }}</td>
+                <td >{{ dealer.name }}</td>
+                <td>
+                    <a href="{% url 'admin_dealer_orders' dealer.id %}" class="btn btn-primary">View Orders</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No dealers found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

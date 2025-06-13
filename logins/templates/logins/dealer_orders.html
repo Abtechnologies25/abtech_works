@@ -56,10 +56,10 @@
             {% for order in orders %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ order.date }}</td>
+                <td>{{ order.date|date:"d/m/Y" }}</td>
                 <td>{{ order.po_no }}</td>
                 <td>{{ order.abt_branch }}</td>
-                <td>{{ order.material_received_on }}</td>
+                <td>{{ order.material_received_on|date:"d/m/Y" }}</td>
                 <td>{{ order.total_amount }}</td>
                 <td>
                     <table class="table table-sm mb-0">
@@ -74,7 +74,7 @@
                         <tbody>
                             {% for payment in order.payments.all %}
                             <tr>
-                                <td>{{ payment.date }}</td>
+                                <td>{{ payment.date|date:"d/m/Y" }}</td>
                                 <td>{{ payment.amount }}</td>
                                 <td>{{ payment.balance }}</td>
                                 <td>

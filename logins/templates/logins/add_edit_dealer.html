@@ -7,6 +7,8 @@
     <form method="post" class="mt-4">
         {% csrf_token %}
         <div class="mb-3 pt-3">
+            {{ form.S_NO.label_tag }}
+            {{ form.S_NO }}
             {{ form.name.label_tag }}
             {{ form.name }}
         </div>
