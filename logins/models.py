@@ -335,28 +335,29 @@ class ChennaiPaymentVoucher(AbstractPaymentVoucher):
 
 
 class AbstractBill(models.Model):
-    date = models.DateField()
-    bill_number = models.CharField(max_length=100)
-    registration_number = models.CharField(max_length=100)
-    name = models.CharField(max_length=255)
-    # total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    cash_received = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    MODE_CHOICES = [
-        ('ONLINE', 'ONLINE'),
-        ('OFFLINE', 'OFFLINE'),
-        # ('Completed', 'Completed'),
-    ]
-    modeofpayment = models.CharField(max_length=50, choices=MODE_CHOICES)
-    # online_received = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    # total_paid_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    # balance = models.DecimalField(max_digits=10, decimal_places=2)
-    # payment_status = models.CharField(max_length=50)
+    S_NO=models.IntegerField()
+    DATE = models.DateField()
+    BILL_NUMBER = models.CharField(max_length=100)
+    REGISTRATION_NUMBER = models.CharField(max_length=100)
+    NAME = models.CharField(max_length=255)
+    TOTAL_AMOUNT = models.DecimalField(max_digits=10, decimal_places=2)
+    CASH_RECEIVED = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # MODE_CHOICES = [
+    #     ('ONLINE', 'ONLINE'),
+    #     ('OFFLINE', 'OFFLINE'),
+        
+    # ]
+    # modeofpayment = models.CharField(max_length=50, choices=MODE_CHOICES)
+    ONLINE_RECEIVED = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    TOTAL_PAID_AMOUNT = models.DecimalField(max_digits=10, decimal_places=2)
+    BALANCE = models.DecimalField(max_digits=10, decimal_places=2)
+    PAYMENT_STATUS = models.CharField(max_length=50)
 
     class Meta:
         abstract = True
 
     def __str__(self):
-        return f"{self.name} - {self.bill_number}"
+        return f"{self.NAME} - {self.BILL_NUMBER}"
 
 class NAGERCOILPHDBILL(AbstractBill):
     class Meta:
