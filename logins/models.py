@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from calendar import month_name
 
 class User(AbstractUser):
     DEPARTMENT_CHOICES = [
@@ -16,6 +17,7 @@ class User(AbstractUser):
         ('TIRUNELVELI', 'TIRUNELVELI'),
         ('CHENNAI', 'CHENNAI'),
         ('PUDUKOTTAI', 'PUDUKOTTAI'),
+        ('VIJAYAWADA','VIJAYAWADA')
         
     ]
 

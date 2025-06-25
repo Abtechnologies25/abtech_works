@@ -1,48 +1,65 @@
 {% extends 'logins/base.html' %}
+
 {% block content %}
 <h1 class="mt-5 text-center" style="font-weight:900">BILLWISE</h1>
 <!-- PhD Bills Table -->
- <div class="container-fluid">
+<div class="container-fluid">
     <div class="card mb-4 mt-5 text-center">
         <div class="card-header bg-dark text-white">
             <h5 class="text-uppercase">PhD Bills</h5>
         </div>
         <div class="card-body">
             {% for branch, bills in phd_bills.items %}
-            <h6 class="text-uppercase fw-bold mt-4">{{ branch }} PhD Bills</h6>
-            <table class="table table-bordered table-hover mt-4">
+            <h5 class="fw-bold mt-5 text-uppercase">{{ branch }} PhD Bills</h5>
+
+              
+
+                  
+
+            <table class="table table-bordered table-hover mt-2">
                 <thead class="table-light">
                     <tr>
-                        <th>Date</th>
-                        <th>Bill No</th>
-                        <th>Name</th>
-                        <th>Total Amount</th>
-                        <th>Cash Received</th>
-                        <th>Online Received</th>
-                        <th>Total Paid Amount</th>
-                        <th>Balance</th>
-                        <th>Payment Status</th>
+                        <th rowspan="2">S.NO</th>
+                        <th rowspan="2">DATE</th>
+                        <th rowspan="2">BILL NO</th>
+                        <th rowspan="2">REG NO</th>
+                        <th rowspan="2">NAME</th>
+                        <th rowspan="2">TOTAL AMOUNT</th>
+                        <th colspan="2">AMOUNT RECEIVED</th>
+                        <th rowspan="2">TOTAL PAID AMOUNT</th>
+                        <th rowspan="2">BALANCE</th>
+                        <th rowspan="2">PAYMENT STATUS</th>
+                    </tr>
+                    <tr>
+                        <th>CASH RECEIVED</th>
+                        <th>ONLINE RECEIVED</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for bill in bills %}
                     <tr>
-                        <td>{{ bill.date }}</td>
-                        <td>{{ bill.bill_number }}</td>
-                        <td>{{ bill.name }}</td>
-                        <td>{{ bill.total_amount }}</td>
-                        <td>{{ bill.cash_received }}</td>
-                        <td>{{ bill.online_received }}</td>
-                        <td>{{ bill.total_paid_amount }}</td>
-                        <td>{{ bill.balance }}</td>
-                        <td>{{ bill.payment_status }}</td>
+                        <td>{{ bill.S_NO }}</td>
+                        <td>{{ bill.DATE }}</td>
+                        <td>{{ bill.BILL_NUMBER }}</td>
+                        <td>{{ bill.REGISTRATION_NUMBER }}</td>
+                        <td>{{ bill.NAME }}</td>
+                        <td>{{ bill.TOTAL_AMOUNT }}</td>
+                        <td>{{ bill.CASH_RECEIVED }}</td>
+                        <td>{{ bill.ONLINE_RECEIVED }}</td>
+                        <td>{{ bill.TOTAL_PAID_AMOUNT }}</td>
+                        <td>{{ bill.BALANCE }}</td>
+                        <td>{{ bill.PAYMENT_STATUS }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="9" class="text-center">No PhD bills found for {{ branch }}.</td></tr>
+                    <tr>
+                        <td colspan="11" class="text-center">No bills found for this month.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% endfor %}
+           
+            
         </div>
     </div>
 
@@ -82,7 +99,9 @@
                         <td>{{ bill.payment_status }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="9" class="text-center">No Internship bills found for {{ branch }}.</td></tr>
+                    <tr>
+                        <td colspan="9" class="text-center">No Internship bills found for {{ branch }}.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -126,7 +145,9 @@
                         <td>{{ bill.payment_status }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="9" class="text-center">No Project bills found for {{ branch }}.</td></tr>
+                    <tr>
+                        <td colspan="9" class="text-center">No Project bills found for {{ branch }}.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -170,7 +191,9 @@
                         <td>{{ bill.payment_status }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="9" class="text-center">No Journal bills found for {{ branch }}.</td></tr>
+                    <tr>
+                        <td colspan="9" class="text-center">No Journal bills found for {{ branch }}.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -214,7 +237,9 @@
                         <td>{{ bill.payment_status }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="9" class="text-center">No Sharing bills found for {{ branch }}.</td></tr>
+                    <tr>
+                        <td colspan="9" class="text-center">No Sharing bills found for {{ branch }}.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -258,7 +283,9 @@
                         <td>{{ bill.payment_status }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="9" class="text-center">No Patent bills found for {{ branch }}.</td></tr>
+                    <tr>
+                        <td colspan="9" class="text-center">No Patent bills found for {{ branch }}.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>

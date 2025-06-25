@@ -60,7 +60,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% with users=user_registrations|dictsort:"branch" %}
+                        {% with users=user_registrations %}
                             {% for user in users %}
                                 {% if user.branch == branch %}
                                     <tr>

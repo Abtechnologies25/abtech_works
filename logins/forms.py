@@ -299,7 +299,7 @@ class BaseBillForm(forms.ModelForm):
             'CASH_RECEIVED', 'ONLINE_RECEIVED','TOTAL_PAID_AMOUNT','BALANCE','PAYMENT_STATUS'
         ]
         widgets = {
-            'date': DATE_WIDGET
+            'DATE': DATE_WIDGET,
         }
 
 # Dynamically generate forms

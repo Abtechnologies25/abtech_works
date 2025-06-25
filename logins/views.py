@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from datetime import datetime
+from datetime import datetime, date
 import pandas as pd
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
@@ -15,6 +15,8 @@ from django.contrib import messages
 import xlwt
 from itertools import chain
 from collections import defaultdict
+from django.db.models import Sum
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -44,7 +46,7 @@ def admin_dashboard(request):
     # purchase_orders = PurchaseOrder.objects.all()
     # dealers = Dealer.objects.all()
     user_registrations = User.objects.all()
-    BRANCHES = ['Nagercoil', 'Tirunelveli', 'Pudukottai', 'Chennai']
+    BRANCHES = ['NAGERCOIL', 'TIRUNELVELI', 'PUDUKOTTAI', 'CHENNAI']
     nagercoil_projects = NagercoilProjectRegistration.objects.all()
     tirunelveli_projects = TirunelveliProjectRegistration.objects.all()
     pudukottai_projects = PudukottaiProjectRegistration.objects.all()
@@ -285,8 +287,11 @@ def billwise_admin_dashboard(request):
         'journal_bills': journal_bills,
         'sharing_bills': sharing_bills,
         'patent_bills': patent_bills,
+        'branches': BRANCHES,
     }
     return render(request, 'logins/billwise_admin_dashboard.html', context)
+
+
 def workstatus_admin_dashboard(request):
     BRANCHES = ['NAGERCOIL', 'TIRUNELVELI', 'PUDUKOTTAI', 'CHENNAI']
     DEPARTMENT_CHOICES = [
@@ -1458,33 +1463,35 @@ def export_bills_to_excel(request, branch, bill_type):
     # Filter by month and year if provided
     queryset = model.objects.all()
     if month and year:
-        queryset = queryset.filter(date__month=month, date__year=year)
+        queryset = queryset.filter(DATE__month=month, DATE__year=year)
 
     response = HttpResponse(content_type='application/ms-excel')
-    filename = f"{bill_type}_{branch}_Bills_{month}_{year}.xls" if month and year else f"{bill_type}_{branch}_Bills.xls"
+    filename = f"{bill_type}_{branch}_BILLS_{month}_{year}.xls" if month and year else f"{bill_type}_{branch}_BILLS.xls"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     wb = xlwt.Workbook(encoding='utf-8')
     ws = wb.add_sheet('Bills')
 
     # Header
-    columns = ['S.NO', 'DATE', 'BILL NUMBER', 'REG NO','NAME','AMOUNT_RECEIVED', 'MODE OF PAYMENT']
+    columns = ['S.NO', 'DATE', 'BILL NUMBER', 'REGISTRATION NUMBER','NAME','TOTAL AMOUNT', 'CASH RECEIVED', 'ONLINE_RECEIVED','TOTAL PAID AMOUNT','BALANCE','PAYMENT_STATUS']
     for col_num, col_name in enumerate(columns):
         ws.write(0, col_num, col_name)
 
     # Rows
     for row_num, record in enumerate(queryset, start=1):
-        ws.write(row_num, 0, row_num)  # S.No
-        ws.write(row_num, 1, record.date.strftime("%Y-%m-%d"))
-        ws.write(row_num, 2, record.bill_number)
-        ws.write(row_num, 3, record.registration_number)
-        ws.write(row_num, 4, record.name)
-        # ws.write(row_num, 5, float(record.total_amount))
-        ws.write(row_num, 5, float(record.cash_received))
-        # ws.write(row_num, 7, float(record.online_received))
-        ws.write(row_num, 6, record.modeofpayment)
-        # ws.write(row_num, 9, float(record.balance))
-        # ws.write(row_num, 10, record.payment_status)
+        ws.write(row_num, 0, record.S_NO)  # S.No
+        ws.write(row_num, 1, record.DATE.strftime("%Y-%m-%d"))
+        ws.write(row_num, 2, record.BILL_NUMBER)
+        ws.write(row_num, 3, record.REGISTRATION_NUMBER)
+        ws.write(row_num, 4, record.NAME)
+        ws.write(row_num, 5, float(record.TOTAL_AMOUNT))
+        ws.write(row_num, 6, float(record.CASH_RECEIVED))
+        ws.write(row_num, 7, float(record.ONLINE_RECEIVED))
+        
+        # ws.write(row_num, 6, record.modeofpayment)
+        ws.write(row_num, 8, float(record.TOTAL_PAID_AMOUNT))
+        ws.write(row_num, 9, float(record.BALANCE))
+        ws.write(row_num, 10, record.PAYMENT_STATUS)
 
     wb.save(response)
     return response
