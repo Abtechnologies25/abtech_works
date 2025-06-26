@@ -334,11 +334,20 @@ class ChennaiPaymentVoucher(AbstractPaymentVoucher):
         verbose_name = "Chennai Payment Voucher"
         verbose_name_plural = "Chennai Payment Vouchers"
 
+MONTH_CHOICES = [
+    ('January', 'January'), ('February', 'February'), ('March', 'March'),
+    ('April', 'April'), ('May', 'May'), ('June', 'June'),
+    ('July', 'July'), ('August', 'August'), ('September', 'September'),
+    ('October', 'October'), ('November', 'November'), ('December', 'December'),
+]
 
+YEAR_CHOICES = [(year, str(year)) for year in range(2020, 2031)]
 
 class AbstractBill(models.Model):
     S_NO=models.IntegerField()
     DATE = models.DateField()
+    MONTH = models.CharField(max_length=10, choices=MONTH_CHOICES,blank=True)
+    YEAR = models.IntegerField(choices=YEAR_CHOICES,default=2025)
     BILL_NUMBER = models.CharField(max_length=100)
     REGISTRATION_NUMBER = models.CharField(max_length=100)
     NAME = models.CharField(max_length=255)

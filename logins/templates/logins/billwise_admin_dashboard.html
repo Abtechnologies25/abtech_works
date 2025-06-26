@@ -1,26 +1,32 @@
 {% extends 'logins/base.html' %}
 
 {% block content %}
-<h1 class="mt-5 text-center" style="font-weight:900">BILLWISE</h1>
-<!-- PhD Bills Table -->
-<div class="container-fluid">
-    <div class="card mb-4 mt-5 text-center">
-        <div class="card-header bg-dark text-white">
-            <h5 class="text-uppercase">PhD Bills</h5>
-        </div>
-        <div class="card-body">
-            {% for branch, bills in phd_bills.items %}
-            <h5 class="fw-bold mt-5 text-uppercase">{{ branch }} PhD Bills</h5>
+{% for bill_type, bills in bill_types.items %}
+<div class="card mt-5">
+    <div class="card-header bg-dark text-white text-center">
+        <h5 class="text-uppercase">{{ bill_type }}</h5>
+    </div>
+    <div class="card-body">
+        {% regroup bills by branch as branch_list %}
+        {% for branch_group in branch_list %}
+            <h4 class="text-start text-uppercase mt-4 text-center">{{ branch_group.grouper }}</h4>
 
-              
+            {% regroup branch_group.list by year as year_list %}
+            {% for year_group in year_list %}
+                <h5 class="text-start mt-3 text-center">Year: {{ year_group.grouper }}</h5>
 
-                  
+                {% regroup year_group.list by month as month_list %}
+                {% for month_group in month_list %}
+                    <h6 class="text-start mt-2 text-center">Month: {{ month_group.grouper }}</h6>
 
-            <table class="table table-bordered table-hover mt-2">
-                <thead class="table-light">
-                    <tr>
+                    {% with total=0 %}
+                    <table class="table table-bordered table-hover mt-2 text-center">
+                        <thead class="table-light ">
+                        <tr>
                         <th rowspan="2">S.NO</th>
                         <th rowspan="2">DATE</th>
+                        <!-- <th rowspan="2">MONTH</th>
+                        <th rowspan="2">YEAR</th> -->
                         <th rowspan="2">BILL NO</th>
                         <th rowspan="2">REG NO</th>
                         <th rowspan="2">NAME</th>
@@ -29,268 +35,70 @@
                         <th rowspan="2">TOTAL PAID AMOUNT</th>
                         <th rowspan="2">BALANCE</th>
                         <th rowspan="2">PAYMENT STATUS</th>
-                    </tr>
-                    <tr>
-                        <th>CASH RECEIVED</th>
-                        <th>ONLINE RECEIVED</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bill in bills %}
-                    <tr>
-                        <td>{{ bill.S_NO }}</td>
-                        <td>{{ bill.DATE }}</td>
-                        <td>{{ bill.BILL_NUMBER }}</td>
-                        <td>{{ bill.REGISTRATION_NUMBER }}</td>
-                        <td>{{ bill.NAME }}</td>
-                        <td>{{ bill.TOTAL_AMOUNT }}</td>
-                        <td>{{ bill.CASH_RECEIVED }}</td>
-                        <td>{{ bill.ONLINE_RECEIVED }}</td>
-                        <td>{{ bill.TOTAL_PAID_AMOUNT }}</td>
-                        <td>{{ bill.BALANCE }}</td>
-                        <td>{{ bill.PAYMENT_STATUS }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="11" class="text-center">No bills found for this month.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endfor %}
-           
-            
-        </div>
-    </div>
+                            </tr>
+                            <tr>
+                                <th >CASH RECEIVED</th>
+                                <th >ONLINE RECEIVED</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bill in month_group.list %}
+                            <tr class="bill-row" data-branch="{{ bill.branch }}" data-year="{{ bill.YEAR }}" data-month="{{ bill.MONTH }}">
+                                <td>{{ bill.S_NO }}</td>
+                                <td>{{ bill.DATE }}</td>
+                                <!-- <td>{{ bill.MONTH }}</td>
+                                <td>{{ bill.YEAR }}</td> -->
+                                <td>{{ bill.BILL_NUMBER }}</td>
+                                <td>{{ bill.REGISTRATION_NUMBER }}</td>
+                                <td>{{ bill.NAME }}</td>
+                                <td>{{ bill.TOTAL_AMOUNT }}</td>
+                                <td>{{ bill.CASH_RECEIVED }}</td>
+                                <td>{{ bill.ONLINE_RECEIVED }}</td>
+                                <td class="paid-amount">{{ bill.TOTAL_PAID_AMOUNT }}</td>
+                                <td>{{ bill.BALANCE }}</td>
+                                <td>{{ bill.PAYMENT_STATUS }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="11" class="text-center">No bills found for this month.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
 
-    <!-- Internship Bills Table -->
-    <div class="card mb-4 mt-5 text-center">
-        <div class="card-header bg-dark text-white ">
-            <h5 class="text-uppercase ">Internship Bills</h5>
-        </div>
-        <div class="card-body">
-            {% for branch, bills in internship_bills.items %}
-            <h6 class="text-uppercase fw-bold mt-4">{{ branch }} Internship Bills</h6>
-            <table class="table table-bordered table-hover mt-4">
-                <thead class="table-light">
-                    <tr>
-                        <th>Date</th>
-                        <th>Bill No</th>
-                        <th>Name</th>
-                        <th>Total Amount</th>
-                        <th>Cash Received</th>
-                        <th>Online Received</th>
-                        <th>Total Paid Amount</th>
-                        <th>Balance</th>
-                        <th>Payment Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bill in bills %}
-                    <tr>
-                        <td>{{ bill.date }}</td>
-                        <td>{{ bill.bill_number }}</td>
-                        <td>{{ bill.name }}</td>
-                        <td>{{ bill.total_amount }}</td>
-                        <td>{{ bill.cash_received }}</td>
-                        <td>{{ bill.online_received }}</td>
-                        <td>{{ bill.total_paid_amount }}</td>
-                        <td>{{ bill.balance }}</td>
-                        <td>{{ bill.payment_status }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="9" class="text-center">No Internship bills found for {{ branch }}.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    <!-- Monthly total -->
+                    <p class="text-end fw-bold monthly-total"
+                    data-branch="{{ branch_group.grouper }}"
+                    data-year="{{ year_group.grouper }}"
+                    data-month="{{ month_group.grouper }}">
+                    MONTHLY INCOME TOTAL: ₹ 0
+                    </p>
+                    {% endwith %}
+                {% endfor %}
             {% endfor %}
-        </div>
-    </div>
-
-    <!-- Project Bills Table -->
-    <div class="card mb-4 text-center">
-        <div class="card-header bg-dark text-white">
-            <h5 class="text-uppercase ">Project Bills</h5>
-        </div>
-        <div class="card-body">
-            {% for branch, bills in project_bills.items %}
-            <h6 class="text-uppercase fw-bold mt-4">{{ branch }} Project Bills</h6>
-            <table class="table table-bordered table-hover mt-4">
-                <thead class="table-light">
-                    <tr>
-                        <th>Date</th>
-                        <th>Bill No</th>
-                        <th>Name</th>
-                        <th>Total Amount</th>
-                        <th>Cash Received</th>
-                        <th>Online Received</th>
-                        <th>Total Paid Amount</th>
-                        <th>Balance</th>
-                        <th>Payment Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bill in bills %}
-                    <tr>
-                        <td>{{ bill.date }}</td>
-                        <td>{{ bill.bill_number }}</td>
-                        <td>{{ bill.name }}</td>
-                        <td>{{ bill.total_amount }}</td>
-                        <td>{{ bill.cash_received }}</td>
-                        <td>{{ bill.online_received }}</td>
-                        <td>{{ bill.total_paid_amount }}</td>
-                        <td>{{ bill.balance }}</td>
-                        <td>{{ bill.payment_status }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="9" class="text-center">No Project bills found for {{ branch }}.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- Journal Bills Table -->
-    <div class="card mb-4 text-center">
-        <div class="card-header bg-dark text-white">
-            <h5 class="text-uppercase ">Journal Bills</h5>
-        </div>
-        <div class="card-body">
-            {% for branch, bills in journal_bills.items %}
-            <h6 class="text-uppercase fw-bold mt-4">{{ branch }} Journal Bills</h6>
-            <table class="table table-bordered table-hover mt-4">
-                <thead class="table-light">
-                    <tr>
-                        <th>Date</th>
-                        <th>Bill No</th>
-                        <th>Name</th>
-                        <th>Total Amount</th>
-                        <th>Cash Received</th>
-                        <th>Online Received</th>
-                        <th>Total Paid Amount</th>
-                        <th>Balance</th>
-                        <th>Payment Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bill in bills %}
-                    <tr>
-                        <td>{{ bill.date }}</td>
-                        <td>{{ bill.bill_number }}</td>
-                        <td>{{ bill.name }}</td>
-                        <td>{{ bill.total_amount }}</td>
-                        <td>{{ bill.cash_received }}</td>
-                        <td>{{ bill.online_received }}</td>
-                        <td>{{ bill.total_paid_amount }}</td>
-                        <td>{{ bill.balance }}</td>
-                        <td>{{ bill.payment_status }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="9" class="text-center">No Journal bills found for {{ branch }}.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- Sharing Bills Table -->
-    <div class="card mb-4 text-center">
-        <div class="card-header bg-dark text-white">
-            <h5 class="text-uppercase ">Sharing Bills</h5>
-        </div>
-        <div class="card-body">
-            {% for branch, bills in sharing_bills.items %}
-            <h6 class="text-uppercase fw-bold mt-4">{{ branch }} Sharing Bills</h6>
-            <table class="table table-bordered table-hover mt-4">
-                <thead class="table-light">
-                    <tr>
-                        <th>Date</th>
-                        <th>Bill No</th>
-                        <th>Name</th>
-                        <th>Total Amount</th>
-                        <th>Cash Received</th>
-                        <th>Online Received</th>
-                        <th>Total Paid Amount</th>
-                        <th>Balance</th>
-                        <th>Payment Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bill in bills %}
-                    <tr>
-                        <td>{{ bill.date }}</td>
-                        <td>{{ bill.bill_number }}</td>
-                        <td>{{ bill.name }}</td>
-                        <td>{{ bill.total_amount }}</td>
-                        <td>{{ bill.cash_received }}</td>
-                        <td>{{ bill.online_received }}</td>
-                        <td>{{ bill.total_paid_amount }}</td>
-                        <td>{{ bill.balance }}</td>
-                        <td>{{ bill.payment_status }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="9" class="text-center">No Sharing bills found for {{ branch }}.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- Patent Bills Table -->
-    <div class="card mb-4 text-center">
-        <div class="card-header bg-dark text-white">
-            <h5 class="text-uppercase ">Patent Bills</h5>
-        </div>
-        <div class="card-body">
-            {% for branch, bills in patent_bills.items %}
-            <h6 class="text-uppercase fw-bold mt-4">{{ branch }} Patent Bills</h6>
-            <table class="table table-bordered table-hover mt-4">
-                <thead class="table-light">
-                    <tr>
-                        <th>Date</th>
-                        <th>Bill No</th>
-                        <th>Name</th>
-                        <th>Total Amount</th>
-                        <th>Cash Received</th>
-                        <th>Online Received</th>
-                        <th>Total Paid Amount</th>
-                        <th>Balance</th>
-                        <th>Payment Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bill in bills %}
-                    <tr>
-                        <td>{{ bill.date }}</td>
-                        <td>{{ bill.bill_number }}</td>
-                        <td>{{ bill.name }}</td>
-                        <td>{{ bill.total_amount }}</td>
-                        <td>{{ bill.cash_received }}</td>
-                        <td>{{ bill.online_received }}</td>
-                        <td>{{ bill.total_paid_amount }}</td>
-                        <td>{{ bill.balance }}</td>
-                        <td>{{ bill.payment_status }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="9" class="text-center">No Patent bills found for {{ branch }}.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
 </div>
+
+
+{% endfor %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // For each table, find its corresponding total paragraph
+    document.querySelectorAll('.monthly-total').forEach(function(totalEl) {
+        const table = totalEl.previousElementSibling; // assumes total comes right after table
+
+        let total = 0;
+        // Only find rows inside this specific table
+        table.querySelectorAll('.paid-amount').forEach(function(cell) {
+            const amount = parseFloat(cell.textContent.replace(/[^0-9.]/g, '')) || 0;
+            total += amount;
+        });
+
+        totalEl.textContent = `MONTHLY INCOME TOTAL: ₹ ${total.toFixed(2)}`;
+    });
+});
+</script>
+
+
 {% endblock %}

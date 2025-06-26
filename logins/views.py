@@ -15,7 +15,7 @@ from django.contrib import messages
 import xlwt
 from itertools import chain
 from collections import defaultdict
-from django.db.models import Sum
+from django.db.models import Sum,F
 
 def register(request):
     if request.method == 'POST':
@@ -237,60 +237,118 @@ def pudukottai_admin_dashboard(request):
         'pudukottai_payment_vouchers': pudukottai_payment_vouchers,
     }
     return render(request, 'logins/pudukottai_admin_dashboard.html', context)
+# def billwise_admin_dashboard(request):
+#     BRANCHES = ['NAGERCOIL', 'TIRUNELVELI', 'PUDUKOTTAI', 'CHENNAI']
+#     phd_bills = {
+#         'NAGERCOIL': NAGERCOILPHDBILL.objects.all(),
+#         'TIRUNELVELI': TIRUNELVELIPHDBILL.objects.all(),
+#         'PUDUKOTTAI': PUDUKOTTAIPHDBILL.objects.all(),
+#         'CHENNAI': CHENNAIPHDBILL.objects.all(),
+#     }
+
+#     internship_bills = {
+#         'NAGERCOIL': NAGERCOILINTERNSHIPBILL.objects.all(),
+#         'TIRUNELVELI': TIRUNELVELIINTERNSHIPBILL.objects.all(),
+#         'PUDUKOTTAI': PUDUKOTTAIINTERNSHIPBILL.objects.all(),
+#         'CHENNAI': CHENNAIINTERNSHIPBILL.objects.all(),
+#     }
+
+#     project_bills = {
+#         'NAGERCOIL': NAGERCOILPROJECTBILL.objects.all(),
+#         'TIRUNELVELI': TIRUNELVELIPROJECTBILL.objects.all(),
+#         'PUDUKOTTAI': PUDUKOTTAIPROJECTBILL.objects.all(),
+#         'CHENNAI': CHENNAIPROJECTBILL.objects.all(),
+#     }
+
+#     journal_bills = {
+#         'NAGERCOIL': NAGERCOILJOURNALBILL.objects.all(),
+#         'TIRUNELVELI': TIRUNELVELIJOURNALBILL.objects.all(),
+#         'PUDUKOTTAI': PUDUKOTTAIJOURNALBILL.objects.all(),
+#         'CHENNAI': CHENNAIJOURNALBILL.objects.all(),
+#     }
+
+#     sharing_bills = {
+#         'NAGERCOIL': NAGERCOILSHARINGBILL.objects.all(),
+#         'TIRUNELVELI': TIRUNELVELISHARINGBILL.objects.all(),
+#         'PUDUKOTTAI': PUDUKOTTAISHARINGBILL.objects.all(),
+#         'CHENNAI': CHENNAISHARINGBILL.objects.all(),
+#     }
+
+#     patent_bills = {
+#         'NAGERCOIL': NAGERCOILPATENTBILL.objects.all(),
+#         'TIRUNELVELI': TIRUNELVELIPATENTBILL.objects.all(),
+#         'PUDUKOTTAI': PUDUKOTTAIPATENTBILL.objects.all(),
+#         'CHENNAI': CHENNAIPATENTBILL.objects.all(),
+#     }
+#     context={
+#         'phd_bills': phd_bills,
+#         'internship_bills': internship_bills,
+#         'project_bills': project_bills,
+#         'journal_bills': journal_bills,
+#         'sharing_bills': sharing_bills,
+#         'patent_bills': patent_bills,
+#         'branches': BRANCHES,
+#     }
+#     return render(request, 'logins/billwise_admin_dashboard.html', context)
+
+
 def billwise_admin_dashboard(request):
-    BRANCHES = ['NAGERCOIL', 'TIRUNELVELI', 'PUDUKOTTAI', 'CHENNAI']
-    phd_bills = {
-        'NAGERCOIL': NAGERCOILPHDBILL.objects.all(),
-        'TIRUNELVELI': TIRUNELVELIPHDBILL.objects.all(),
-        'PUDUKOTTAI': PUDUKOTTAIPHDBILL.objects.all(),
-        'CHENNAI': CHENNAIPHDBILL.objects.all(),
+    bill_models = {
+        'PhD Bills': {
+            'NAGERCOIL': NAGERCOILPHDBILL,
+            'TIRUNELVELI': TIRUNELVELIPHDBILL,
+            'PUDUKOTTAI': PUDUKOTTAIPHDBILL,
+            'CHENNAI': CHENNAIPHDBILL,
+        },
+        'Internship Bills': {
+            'NAGERCOIL': NAGERCOILINTERNSHIPBILL,
+            'TIRUNELVELI': TIRUNELVELIINTERNSHIPBILL,
+            'PUDUKOTTAI': PUDUKOTTAIINTERNSHIPBILL,
+            'CHENNAI': CHENNAIINTERNSHIPBILL,
+        },
+        'Project Bills': {
+            'NAGERCOIL': NAGERCOILPROJECTBILL,
+            'TIRUNELVELI': TIRUNELVELIPROJECTBILL,
+            'PUDUKOTTAI': PUDUKOTTAIPROJECTBILL,
+            'CHENNAI': CHENNAIPROJECTBILL,
+        },
+        'Journal Bills': {
+            'NAGERCOIL': NAGERCOILJOURNALBILL,
+            'TIRUNELVELI': TIRUNELVELIJOURNALBILL,
+            'PUDUKOTTAI': PUDUKOTTAIJOURNALBILL,
+            'CHENNAI': CHENNAIJOURNALBILL,
+        },
+        'Sharing Bills': {
+            'NAGERCOIL': NAGERCOILSHARINGBILL,
+            'TIRUNELVELI': TIRUNELVELISHARINGBILL,
+            'PUDUKOTTAI': PUDUKOTTAISHARINGBILL,
+            'CHENNAI': CHENNAISHARINGBILL,
+        },
+        'Patent Bills': {
+            'NAGERCOIL': NAGERCOILPATENTBILL,
+            'TIRUNELVELI': TIRUNELVELIPATENTBILL,
+            'PUDUKOTTAI': PUDUKOTTAIPATENTBILL,
+            'CHENNAI': CHENNAIPATENTBILL,
+        },
     }
 
-    internship_bills = {
-        'NAGERCOIL': NAGERCOILINTERNSHIPBILL.objects.all(),
-        'TIRUNELVELI': TIRUNELVELIINTERNSHIPBILL.objects.all(),
-        'PUDUKOTTAI': PUDUKOTTAIINTERNSHIPBILL.objects.all(),
-        'CHENNAI': CHENNAIINTERNSHIPBILL.objects.all(),
-    }
+    bill_types = {}
 
-    project_bills = {
-        'NAGERCOIL': NAGERCOILPROJECTBILL.objects.all(),
-        'TIRUNELVELI': TIRUNELVELIPROJECTBILL.objects.all(),
-        'PUDUKOTTAI': PUDUKOTTAIPROJECTBILL.objects.all(),
-        'CHENNAI': CHENNAIPROJECTBILL.objects.all(),
-    }
+    for bill_type, branches in bill_models.items():
+        all_bills = []
+        for branch_name, model in branches.items():
+            bills = model.objects.annotate(
+                year=F('YEAR'),
+                month=F('MONTH')
+            )
+            for bill in bills:
+                bill.branch = branch_name
+                all_bills.append(bill)
+        bill_types[bill_type] = all_bills
 
-    journal_bills = {
-        'NAGERCOIL': NAGERCOILJOURNALBILL.objects.all(),
-        'TIRUNELVELI': TIRUNELVELIJOURNALBILL.objects.all(),
-        'PUDUKOTTAI': PUDUKOTTAIJOURNALBILL.objects.all(),
-        'CHENNAI': CHENNAIJOURNALBILL.objects.all(),
-    }
-
-    sharing_bills = {
-        'NAGERCOIL': NAGERCOILSHARINGBILL.objects.all(),
-        'TIRUNELVELI': TIRUNELVELISHARINGBILL.objects.all(),
-        'PUDUKOTTAI': PUDUKOTTAISHARINGBILL.objects.all(),
-        'CHENNAI': CHENNAISHARINGBILL.objects.all(),
-    }
-
-    patent_bills = {
-        'NAGERCOIL': NAGERCOILPATENTBILL.objects.all(),
-        'TIRUNELVELI': TIRUNELVELIPATENTBILL.objects.all(),
-        'PUDUKOTTAI': PUDUKOTTAIPATENTBILL.objects.all(),
-        'CHENNAI': CHENNAIPATENTBILL.objects.all(),
-    }
-    context={
-        'phd_bills': phd_bills,
-        'internship_bills': internship_bills,
-        'project_bills': project_bills,
-        'journal_bills': journal_bills,
-        'sharing_bills': sharing_bills,
-        'patent_bills': patent_bills,
-        'branches': BRANCHES,
-    }
-    return render(request, 'logins/billwise_admin_dashboard.html', context)
-
+    return render(request, 'logins/billwise_admin_dashboard.html', {
+        'bill_types': bill_types
+    })
 
 def workstatus_admin_dashboard(request):
     BRANCHES = ['NAGERCOIL', 'TIRUNELVELI', 'PUDUKOTTAI', 'CHENNAI']
