@@ -490,6 +490,11 @@ class CHENNAIPATENTBILL(AbstractBill):
         verbose_name = "Chennai Patent Bill"
         verbose_name_plural = "Chennai Patent Bills"
 
+class NAGERCOILCENTREBILL(AbstractBill):
+    class Meta:
+        verbose_name = "Nagercoil Project Centre Bill"
+        verbose_name_plural = "Nagercoil Project Centre Bill"
+
 class WorkStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     branch = models.CharField(max_length=100)

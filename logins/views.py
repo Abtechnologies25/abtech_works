@@ -1458,7 +1458,7 @@ def download_report_payment_voucher(request, model, branch, filename):
 
 
 # List of bill types
-BILL_TYPES = ["PHD", "INTERNSHIP", "PROJECT", "JOURNAL", "SHARING", "PATENT"]
+BILL_TYPES = ["PHD", "INTERNSHIP", "PROJECT", "JOURNAL", "SHARING", "PATENT","CENTRE"]
 
 # Map to get model/form
 def get_model(branch, bill_type):
